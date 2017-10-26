@@ -1,10 +1,10 @@
 
 ==================== FINAL INTERFACE ====================
-2017-10-25 17:02:36.035986 UTC
+2017-10-25 18:21:16.383481 UTC
 
 interface chat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY:Lib 8002
-  interface hash: 65ee8633b47d785f0393ed79c930536c
-  ABI hash: 9e1e54d6d60c010d860913bc1ae145cd
+  interface hash: abbe8fb94150ad449c4e3afa87a70634
+  ABI hash: 42890536e4323b12a20d6ac604646f12
   export-list hash: b21de29435d31c3724fbc5ff75809e31
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: f6624f22fcdd76ed0ac6625466e2d712
@@ -25,10 +25,39 @@ family instance modules: base-4.9.1.0:Control.Applicative
 import  -/  base-4.9.1.0:Prelude 22dd289b8469a8fa8dc81cab7b237771
 import  -/  base-4.9.1.0:System.IO c9de64c5f5407c4cf1c52500c4d15200
 import  -/  ghc-prim-0.5.0.0:GHC.Types 89f8de4f08018c9177c98d979eae0e45
-b8e86864189aa6d22ebade9cd7ebcbfc
+f4dade181e8cf6aedf9a95ff94ed4080
   $trModule :: GHC.Types.Module
-7918de260e4e3cf62ffc603ced75667f
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.Module Lib.$trModule2 Lib.$trModule1) -}
+6f11bfec29dbef2ed46b6ab7e2e02dfb
+  $trModule1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS "Lib"#) -}
+9bf11ac2732746014175bcff42c206d4
+  $trModule2 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   "chat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY"#) -}
+d1d7f62d6f80087e85d2bbe556d48874
   someFunc :: GHC.Types.IO ()
+  {- Arity: 1, Strictness: <S,U>,
+     Unfolding: InlineRule (0, True, True)
+                Lib.someFunc1 `cast` (Sym (GHC.Types.N:IO[0] <()>_R)) -}
+44230ed008761f65922d804cffb828c6
+  someFunc1 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 1, Strictness: <S,U>,
+     Unfolding: (\ (eta :: GHC.Prim.State#
+                             GHC.Prim.RealWorld)[OneShot] ->
+                 GHC.IO.Handle.Text.hPutStr2
+                   GHC.IO.Handle.FD.stdout
+                   Lib.someFunc2
+                   GHC.Types.True
+                   eta) -}
+3f77d607a1b354281575f16f96ddb411
+  someFunc2 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "someFunc"#) -}
 vectorised variables:
 vectorised tycons:
 vectorised reused tycons:

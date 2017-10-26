@@ -2,8 +2,34 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a7455a44-2062-4025-8598-d1f2212a6620" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Types.hs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Lib.dyn_hi" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Lib.dyn_hi" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Lib.dyn_o" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Lib.dyn_o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Lib.hi" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Lib.hi" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Lib.o" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Lib.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/chat-exe/chat-exe" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/chat-exe/chat-exe" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/chat-exe/chat-exe-tmp/Main.hi" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/chat-exe/chat-exe-tmp/Main.hi" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/chat-exe/chat-exe-tmp/Main.o" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/chat-exe/chat-exe-tmp/Main.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/libHSchat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY-ghc8.0.2.dylib" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/libHSchat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY-ghc8.0.2.dylib" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/libHSchat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY.a" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/libHSchat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY.a" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/package.conf.inplace/package.cache" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/package.conf.inplace/package.cache" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/setup-config" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/setup-config" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/stack-build-cache" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/stack-build-cache" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/stack-cabal-mod" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/stack-cabal-mod" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/bin/chat-exe" afterPath="$PROJECT_DIR$/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/bin/chat-exe" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/lib/x86_64-osx-ghc-8.0.2/chat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY/Lib.dyn_hi" afterPath="$PROJECT_DIR$/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/lib/x86_64-osx-ghc-8.0.2/chat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY/Lib.dyn_hi" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/lib/x86_64-osx-ghc-8.0.2/chat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY/Lib.hi" afterPath="$PROJECT_DIR$/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/lib/x86_64-osx-ghc-8.0.2/chat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY/Lib.hi" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/lib/x86_64-osx-ghc-8.0.2/chat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY/libHSchat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY.a" afterPath="$PROJECT_DIR$/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/lib/x86_64-osx-ghc-8.0.2/chat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY/libHSchat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY.a" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/lib/x86_64-osx-ghc-8.0.2/libHSchat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY-ghc8.0.2.dylib" afterPath="$PROJECT_DIR$/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/lib/x86_64-osx-ghc-8.0.2/libHSchat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY-ghc8.0.2.dylib" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/pkgdb/package.cache" afterPath="$PROJECT_DIR$/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/pkgdb/package.cache" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/chat-exe/chat-exe-tmp/app/Main.dump-hi" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/chat-exe/chat-exe-tmp/app/Main.dump-hi" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/src/Lib.dump-hi" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/src/Lib.dump-hi" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/package.conf.inplace/chat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY.conf" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/package.conf.inplace/chat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY.conf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/pkgdb/chat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY.conf" afterPath="$PROJECT_DIR$/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/pkgdb/chat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY.conf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Main.hs" afterPath="$PROJECT_DIR$/app/Main.hs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chat.cabal" afterPath="$PROJECT_DIR$/chat.cabal" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main.hs" afterPath="$PROJECT_DIR$/src/Main.hs" />
     </list>
     <ignored path="$PROJECT_DIR$/.stack-work/" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -19,18 +45,38 @@
       <file leaf-file-name="Lib.hs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Lib.hs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="30" lean-forward="true" selection-start-line="5" selection-start-column="30" selection-end-line="5" selection-end-column="30" />
+            <state relative-caret-position="90">
+              <caret line="6" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="Main.hs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Main.hs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="956">
+              <caret line="64" column="44" lean-forward="true" selection-start-line="64" selection-start-column="44" selection-end-line="64" selection-end-column="44" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Main.hs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.hs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="37" column="24" lean-forward="true" selection-start-line="37" selection-start-column="24" selection-end-line="37" selection-end-column="24" />
+            <state relative-caret-position="195">
+              <caret line="13" column="9" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Types.hs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Types.hs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="5" lean-forward="false" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -49,8 +95,8 @@
       <file leaf-file-name="chat.cabal" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chat.cabal">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="28" column="30" lean-forward="true" selection-start-line="28" selection-start-column="30" selection-end-line="28" selection-end-column="30" />
+            <state relative-caret-position="240">
+              <caret line="16" column="26" lean-forward="true" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -65,6 +111,11 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>readChan</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -76,9 +127,11 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/src/Types.hs" />
+        <option value="$PROJECT_DIR$/src/Main.hs" />
         <option value="$PROJECT_DIR$/src/Lib.hs" />
         <option value="$PROJECT_DIR$/chat.cabal" />
-        <option value="$PROJECT_DIR$/src/Main.hs" />
+        <option value="$PROJECT_DIR$/app/Main.hs" />
       </list>
     </option>
   </component>
@@ -89,8 +142,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
-    <option name="x" value="1021" />
-    <option name="width" value="659" />
+    <option name="x" value="913" />
+    <option name="width" value="767" />
     <option name="height" value="1050" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -115,6 +168,11 @@
             <path>
               <item name="chat" type="b2602c69:ProjectViewProjectNode" />
               <item name="chat" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="chat" type="b2602c69:ProjectViewProjectNode" />
+              <item name="chat" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="chat" type="b2602c69:ProjectViewProjectNode" />
@@ -242,15 +300,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1508950709767</updated>
-      <workItem from="1508950713293" duration="2308000" />
+      <workItem from="1508950713293" duration="9790000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2308000" />
+    <option name="totallyTimeSpent" value="9790000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1021" y="0" width="659" height="1050" extended-state="6" />
+    <frame x="913" y="0" width="767" height="1050" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -266,8 +324,9 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24279211" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20860496" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -278,7 +337,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -301,26 +359,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Lib.hs">
+    <entry file="file://$PROJECT_DIR$/src/Types.hs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="30" lean-forward="true" selection-start-line="5" selection-start-column="30" selection-end-line="5" selection-end-column="30" />
+        <state relative-caret-position="30">
+          <caret line="2" column="5" lean-forward="false" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chat.cabal">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" column="30" lean-forward="true" selection-start-line="28" selection-start-column="30" selection-end-line="28" selection-end-column="30" />
+        <state relative-caret-position="240">
+          <caret line="16" column="26" lean-forward="true" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Lib.hs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.hs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="37" column="24" lean-forward="true" selection-start-line="37" selection-start-column="24" selection-end-line="37" selection-end-column="24" />
+        <state relative-caret-position="195">
+          <caret line="13" column="9" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Main.hs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="956">
+          <caret line="64" column="44" lean-forward="true" selection-start-line="64" selection-start-column="44" selection-end-line="64" selection-end-column="44" />
           <folding />
         </state>
       </provider>

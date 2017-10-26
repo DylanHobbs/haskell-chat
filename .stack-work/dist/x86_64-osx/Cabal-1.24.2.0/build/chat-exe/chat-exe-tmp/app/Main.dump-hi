@@ -1,10 +1,10 @@
 
 ==================== FINAL INTERFACE ====================
-2017-10-25 22:25:13.793057 UTC
+2017-10-26 13:27:54.566532 UTC
 
 interface main@main:Main 8002
-  interface hash: 20a607a6951def08ede2e1795445a64b
-  ABI hash: 67f81f8be7f6ba3fb90afcc159f90919
+  interface hash: 36419d65b0b8ba23eb9e65b9de907d29
+  ABI hash: 36ce8d0ec55a4981c0972c1c96add663
   export-list hash: 62046419cd6372236c6f5a44e1daa811
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: deb6bd66b703a53e713d527d8d00d84b
@@ -44,6 +44,7 @@ import  -/  base-4.9.1.0:GHC.IO.Handle.Types 17aa0e2ab137800e3a31992d780c071f
 import  -/  base-4.9.1.0:GHC.IO.IOMode 2f5782f93b12a0d860d6d661b9fb405c
 import  -/  base-4.9.1.0:GHC.List ab8c4e523e6c479c549d3bcd5fc4a439
 import  -/  base-4.9.1.0:GHC.Num 00bfaa7b2f9d6084913c0697a8a49ec8
+import  -/  base-4.9.1.0:GHC.Show a027f5ac24879eaba752f44aa90fe511
 import  -/  base-4.9.1.0:Prelude 22dd289b8469a8fa8dc81cab7b237771
 import  -/  base-4.9.1.0:System.Environment 08cb808e8e6a7821e6f8cfa76a977431
 import  -/  base-4.9.1.0:System.IO c9de64c5f5407c4cf1c52500c4d15200
@@ -79,16 +80,19 @@ f60936bd086f88c1d033a609da3969a9
   {- Arity: 8,
      Strictness: <L,U(U)><S,U><L,U><L,U(U)><S,U><L,U(U,U)><L,U(U)><S,U>,
      Inline: [0] -}
-ca15df9bc0aeca894855af8add28a68a
+9dfe2624af9a3d6466f89c1b5d8b9ae3
   $wrunConn ::
     Foreign.C.Types.CInt
+    -> Network.Socket.Types.Family
     -> GHC.Prim.MVar#
          GHC.Prim.RealWorld Network.Socket.Types.SocketStatus
+    -> Network.Socket.Types.SockAddr
     -> Control.Concurrent.Chan.Chan Main.Msg
     -> GHC.Types.Int
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-  {- Arity: 5, Strictness: <L,U(U)><S,U><L,1*U(U,U)><L,U(U)><S,U>,
+  {- Arity: 7,
+     Strictness: <L,U(U)><L,U><S,U><L,U><L,1*U(U,U)><L,U(U)><S,U>,
      Inline: [0] -}
 f4c7da5d252b420bf9c5a099dc18276c
   type Msg = (GHC.Types.Int, GHC.Base.String)
@@ -280,14 +284,14 @@ c57d69f4025b524c4c783b18a63553f5
                  case w of ww { Network.Socket.Types.MkSocket ww1 ww2 ww3 ww4 ww5 ->
                  case ww5 of ww6 { GHC.MVar.MVar ww7 ->
                  Main.$wmainLoop ww1 ww2 ww3 ww4 ww7 w1 w2 w3 } }) -}
-19e15377020c5dc126edfdf2f855a66c
+f433c457800afe52334e857aea7289c5
   runConn ::
     (Network.Socket.Types.Socket, Network.Socket.Types.SockAddr)
     -> Control.Concurrent.Chan.Chan Main.Msg
     -> GHC.Types.Int
     -> GHC.Types.IO ()
   {- Arity: 4,
-     Strictness: <S(S(LLLLS(S))L),1*U(1*U(U(U),A,A,A,1*U(U)),A)><L,1*U(U,U)><L,U(U)><S,U>,
+     Strictness: <S(S(LLLLS(S))L),1*U(1*U(U(U),U,A,A,1*U(U)),U)><L,1*U(U,U)><L,U(U)><S,U>,
      Unfolding: InlineRule (0, True, True)
                 Main.runConn1
                   `cast`
@@ -295,7 +299,7 @@ c57d69f4025b524c4c783b18a63553f5
                  ->_R <Control.Concurrent.Chan.Chan Main.Msg>_R
                  ->_R <GHC.Types.Int>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-11317d963c18ef7be4ef9b01a132ab27
+dc5ac4299035e93c8224291718e14eee
   runConn1 ::
     (Network.Socket.Types.Socket, Network.Socket.Types.SockAddr)
     -> Control.Concurrent.Chan.Chan Main.Msg
@@ -303,7 +307,7 @@ c57d69f4025b524c4c783b18a63553f5
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 4,
-     Strictness: <S(S(LLLLS(S))L),1*U(1*U(U(U),A,A,A,1*U(U)),A)><L,1*U(U,U)><L,U(U)><S,U>,
+     Strictness: <S(S(LLLLS(S))L),1*U(1*U(U(U),U,A,A,1*U(U)),U)><L,1*U(U,U)><L,U(U)><S,U>,
      Inline: INLINE[0],
      Unfolding: InlineRule (4, True, False)
                 (\ (w :: (Network.Socket.Types.Socket,
@@ -314,7 +318,7 @@ c57d69f4025b524c4c783b18a63553f5
                  case w of ww { (,) ww1 ww2 ->
                  case ww1 of ww3 { Network.Socket.Types.MkSocket ww4 ww5 ww6 ww7 ww8 ->
                  case ww8 of ww9 { GHC.MVar.MVar ww10 ->
-                 Main.$wrunConn ww4 ww10 w1 w2 w3 } } }) -}
+                 Main.$wrunConn ww4 ww5 ww10 ww2 w1 w2 w3 } } }) -}
 vectorised variables:
 vectorised tycons:
 vectorised reused tycons:

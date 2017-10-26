@@ -36,13 +36,8 @@ mainLoop sock chan msgNum = do
     forkIO (runConn conn chan msgNum)
     mainLoop sock chan $! msgNum + 1
 
---runConn :: (Socket, SockAddr) -> IO ()
-                --runConn (sock, _) = do
-                --    send sock "Hello World!\n"
-                --    close sock
-
 runConn :: (Socket, SockAddr) -> Chan Msg -> Int -> IO ()
-runConn (sock, _) chan msgNum = do
+runConn (sock, sockAd) chan msgNum = do
     let broadcast msg = writeChan chan (msgNum, msg)
     handle1 <- socketToHandle sock ReadWriteMode
     hSetBuffering handle1 NoBuffering
@@ -61,9 +56,10 @@ runConn (sock, _) chan msgNum = do
 
     handle (\(SomeException _) -> return ()) $ fix $ \loop -> do
         line <-fmap init (hGetLine handle1)
+        port <- socketPort sock
         case line of
           "quit" -> hPutStrLn handle1 "Bye!"
-          "Hello text" -> hPutStrLn handle1  "HELO text\nIP:[ip address]\nPort:[port number]\nStudentID:[your student ID]\n" >> loop
+          "Hello text" -> hPutStrLn handle1   ("HELO text\nIP: " ++ show sockAd ++ "\nPort: " ++ show port  ++ "\nStudentID: 12301730\n") >> loop
           _      -> broadcast (name ++ ": " ++ line) >> loop
 
     killThread reader

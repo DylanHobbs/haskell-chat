@@ -12,8 +12,8 @@ import Text.Printf (printf)
 
 type Msg = (Int, String)
 
-server :: IO()
-server = do
+gogoServer :: IO()
+gogoServer = do
     args <- getArgs
     let port = getPort args
     sock <- socket AF_INET Stream 0

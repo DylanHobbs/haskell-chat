@@ -1,4 +1,4 @@
-module Types where
+module Chat.Types where
 import Network.Socket
 import Control.Concurrent
 import Control.Concurrent.STM

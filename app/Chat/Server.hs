@@ -1,4 +1,4 @@
-module Server where
+module Chat.Server where
 
 import Network.Socket
 import System.Environment

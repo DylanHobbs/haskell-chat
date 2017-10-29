@@ -2,14 +2,37 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a7455a44-2062-4025-8598-d1f2212a6620" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/binary_0_8_3_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/containers_0_5_7_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/text_1_2_2_2.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/package.conf.inplace/chat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY.conf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/pkgdb/chat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY.conf" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Main.hs" afterPath="$PROJECT_DIR$/src/Server.hs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Main.dyn_hi" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Main.dyn_hi" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Main.dyn_o" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Main.dyn_o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Main.hi" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Main.hi" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Main.o" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Main.o" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/chat-exe/chat-exe" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/chat-exe/chat-exe" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/chat-exe/chat-exe-tmp/Main.hi" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/chat-exe/chat-exe-tmp/Main.hi" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/chat-exe/chat-exe-tmp/Main.o" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/chat-exe/chat-exe-tmp/Main.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/package.conf.inplace/package.cache" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/package.conf.inplace/package.cache" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/setup-config" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/setup-config" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/stack-build-cache" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/stack-build-cache" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/stack-cabal-mod" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/stack-cabal-mod" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/stack-config-cache" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/stack-config-cache" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/bin/chat-exe" afterPath="$PROJECT_DIR$/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/bin/chat-exe" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/pkgdb/package.cache" afterPath="$PROJECT_DIR$/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/pkgdb/package.cache" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/autogen/Paths_chat.hs" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/autogen/Paths_chat.hs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/autogen/cabal_macros.h" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/autogen/cabal_macros.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/chat-exe/chat-exe-tmp/app/Main.dump-hi" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/chat-exe/chat-exe-tmp/app/Main.dump-hi" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/src/Main.dump-hi" afterPath="$PROJECT_DIR$/.stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/src/Main.dump-hi" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Main.hs" afterPath="$PROJECT_DIR$/app/Main.hs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chat.cabal" afterPath="$PROJECT_DIR$/chat.cabal" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chat.iml" afterPath="$PROJECT_DIR$/chat.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/chat/Main.hs" afterPath="$PROJECT_DIR$/out/production/chat/Main.hs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/chat/Types.hs" afterPath="$PROJECT_DIR$/out/production/chat/Types.hs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Types.hs" afterPath="$PROJECT_DIR$/src/Types.hs" />
     </list>
     <ignored path="$PROJECT_DIR$/.stack-work/" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -26,7 +49,7 @@
         <entry file="file://$PROJECT_DIR$/src/Lib.hs">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="90">
-              <caret line="6" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+              <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -35,18 +58,18 @@
       <file leaf-file-name="Main.hs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Main.hs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="546">
-              <caret line="61" column="63" lean-forward="false" selection-start-line="61" selection-start-column="63" selection-end-line="61" selection-end-column="63" />
+            <state relative-caret-position="673">
+              <caret line="65" column="38" lean-forward="false" selection-start-line="65" selection-start-column="38" selection-end-line="65" selection-end-column="38" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Main.hs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Main.hs">
+      <file leaf-file-name="Server.hs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Server.hs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="9" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+            <state relative-caret-position="435">
+              <caret line="29" column="24" lean-forward="true" selection-start-line="29" selection-start-column="24" selection-end-line="29" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -55,8 +78,18 @@
       <file leaf-file-name="Types.hs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Types.hs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="5" lean-forward="false" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
+            <state relative-caret-position="420">
+              <caret line="28" column="13" lean-forward="true" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Setup.hs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Setup.hs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -65,7 +98,7 @@
       <file leaf-file-name="stack.yaml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/stack.yaml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-106">
+            <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
@@ -75,8 +108,8 @@
       <file leaf-file-name="chat.cabal" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chat.cabal">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="26" lean-forward="true" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
+            <state relative-caret-position="690">
+              <caret line="46" column="26" lean-forward="false" selection-start-line="46" selection-start-column="26" selection-end-line="46" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -94,6 +127,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>readChan</find>
+      <find>Msg</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -107,11 +141,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Types.hs" />
-        <option value="$PROJECT_DIR$/src/Main.hs" />
         <option value="$PROJECT_DIR$/src/Lib.hs" />
         <option value="$PROJECT_DIR$/chat.cabal" />
+        <option value="$PROJECT_DIR$/src/Types.hs" />
         <option value="$PROJECT_DIR$/app/Main.hs" />
+        <option value="$PROJECT_DIR$/src/Main.hs" />
+        <option value="$PROJECT_DIR$/src/Server.hs" />
       </list>
     </option>
   </component>
@@ -121,9 +156,9 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
-    <option name="x" value="913" />
-    <option name="width" value="767" />
+  <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="x" value="842" />
+    <option name="width" value="838" />
     <option name="height" value="1050" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -171,7 +206,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="nodejs_interpreter_path" value="/usr/local/bin/node" />
-    <property name="settings.editor.selected.configurable" value="intellij.haskell.settings.HaskellConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
   </component>
@@ -280,19 +315,20 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1508950709767</updated>
-      <workItem from="1508950713293" duration="11149000" />
+      <workItem from="1508950713293" duration="18445000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11149000" />
+    <option name="totallyTimeSpent" value="18445000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="913" y="0" width="767" height="1050" extended-state="6" />
+    <frame x="842" y="0" width="838" height="1050" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -303,7 +339,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20860496" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19093078" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -330,26 +366,26 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/chat.cabal">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="690">
+          <caret line="46" column="26" lean-forward="false" selection-start-line="46" selection-start-column="26" selection-end-line="46" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/stack.yaml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-106">
+        <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Types.hs">
+    <entry file="file://$PROJECT_DIR$/Setup.hs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="5" lean-forward="false" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chat.cabal">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="26" lean-forward="true" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -357,23 +393,31 @@
     <entry file="file://$PROJECT_DIR$/src/Lib.hs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
-          <caret line="6" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.hs">
+    <entry file="file://$PROJECT_DIR$/src/Types.hs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="9" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+        <state relative-caret-position="420">
+          <caret line="28" column="13" lean-forward="true" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Server.hs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="24" lean-forward="true" selection-start-line="29" selection-start-column="24" selection-end-line="29" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Main.hs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
-          <caret line="61" column="63" lean-forward="false" selection-start-line="61" selection-start-column="63" selection-end-line="61" selection-end-column="63" />
+        <state relative-caret-position="673">
+          <caret line="65" column="38" lean-forward="false" selection-start-line="65" selection-start-column="38" selection-end-line="65" selection-end-column="38" />
           <folding />
         </state>
       </provider>

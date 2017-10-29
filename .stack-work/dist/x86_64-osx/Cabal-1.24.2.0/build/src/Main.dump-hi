@@ -1,11 +1,11 @@
 
 ==================== FINAL INTERFACE ====================
-2017-10-25 18:22:45.292962 UTC
+2017-10-26 16:12:53.557048 UTC
 
-interface chat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY:Main 8002
-  interface hash: 0749413134dadcdab97495fafc606660
-  ABI hash: f02cc7cd796cf5a51afc34a373a62fcf
-  export-list hash: 6aa751f3d53cc75dd4212a107e4d8dc0
+interface chat-0.1.0.0-Ivlui4jrG6o9cYAS2uoEZH:Main 8002
+  interface hash: 9676dada273cf314016562364e94f1a5
+  ABI hash: d454a88b6b2e01ed1881b80fb7609123
+  export-list hash: 1b787d16d6d8c0f51e94b8c9059b508c
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: f6624f22fcdd76ed0ac6625466e2d712
   sig of: Nothing
@@ -52,21 +52,21 @@ import  -/  ghc-prim-0.5.0.0:GHC.Classes 0bdf3d057a415ec1b84a7b1994efbe47
 import  -/  ghc-prim-0.5.0.0:GHC.Types 89f8de4f08018c9177c98d979eae0e45
 import  -/  network-2.6.3.2@network-2.6.3.2-IsLM4TXcLoRI0fmmBYVyQz:Network.Socket 52f9b9614bf018ecf5fec5f2570dad23
 import  -/  network-2.6.3.2@network-2.6.3.2-IsLM4TXcLoRI0fmmBYVyQz:Network.Socket.Types 2eb8a83dc42cc86a12e652ce3294cbda
-a76c4a9b7de2261d9f07f8b7e16c54cc
+64322e1a9930525e1521f61dddd8db34
   $trModule :: GHC.Types.Module
-3428c31a5407589299b56e11e3834c53
+6bdd7a5bd2e3713bf43a21d7c88c37f1
   type Msg = (GHC.Types.Int, GHC.Base.String)
-dfbfb62526eef3ef64f61338ffb9c285
+9fe34b34d113a11d939e7a397fe44fc2
   getPort :: [GHC.Base.String] -> Network.Socket.Types.PortNumber
-4ef6a0902b3954af8872f7a15f833b78
+6ce747ffe773bd1599ee2fc874548d9b
   main :: GHC.Types.IO ()
-bdb8e2646937dfbd49011492eacdb868
+b35496f617d1c1ebc36dccec61df5c94
   mainLoop ::
     Network.Socket.Types.Socket
     -> Control.Concurrent.Chan.Chan Main.Msg
     -> GHC.Types.Int
     -> GHC.Types.IO ()
-3019a882f67c84f580e127303c4b22ed
+1ea3d2e61828219ee2a6197d3b4eedb6
   runConn ::
     (Network.Socket.Types.Socket, Network.Socket.Types.SockAddr)
     -> Control.Concurrent.Chan.Chan Main.Msg

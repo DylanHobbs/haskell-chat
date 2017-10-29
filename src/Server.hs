@@ -1,4 +1,4 @@
-module Main where
+module Server where
 
 import Network.Socket
 import System.Environment
@@ -7,16 +7,19 @@ import Control.Concurrent
 import Control.Monad.Fix (fix)
 import Control.Exception
 import Control.Monad (when)
+import Text.Printf (printf)
+
 
 type Msg = (Int, String)
 
-main :: IO()
-main = do
+server :: IO()
+server = do
     args <- getArgs
     let port = getPort args
     sock <- socket AF_INET Stream 0
     setSocketOption sock ReuseAddr 1
     bind sock (SockAddrInet port iNADDR_ANY)
+    print ("Service Started on port: " ++ show port)
     listen sock 2
     chan <- newChan
 
@@ -36,21 +39,16 @@ mainLoop sock chan msgNum = do
     forkIO (runConn conn chan msgNum)
     mainLoop sock chan $! msgNum + 1
 
---runConn :: (Socket, SockAddr) -> IO ()
-                --runConn (sock, _) = do
-                --    send sock "Hello World!\n"
-                --    close sock
-
 runConn :: (Socket, SockAddr) -> Chan Msg -> Int -> IO ()
-runConn (sock, _) chan msgNum = do
+runConn (sock, sockAd) chan msgNum = do
     let broadcast msg = writeChan chan (msgNum, msg)
     handle1 <- socketToHandle sock ReadWriteMode
     hSetBuffering handle1 NoBuffering
 
-    hPutStrLn handle1 "Enter username: "
+    hPutStr handle1 "Enter username: "
     name <- fmap init (hGetLine handle1)
     broadcast ("---> " ++ name ++ " joined the channel")
-    hPutStr handle1 ("Welcome, " ++ name ++ "!")
+    hPutStrLn handle1 ("Welcome, " ++ name ++ "!")
 
     commLine <- dupChan chan
 
@@ -61,9 +59,12 @@ runConn (sock, _) chan msgNum = do
 
     handle (\(SomeException _) -> return ()) $ fix $ \loop -> do
         line <-fmap init (hGetLine handle1)
+        port <- socketPort sock
         case line of
           "quit" -> hPutStrLn handle1 "Bye!"
-          _      -> broadcast (name ++ ":" ++ line) >> loop
+          "Kill Service" ->  hPutStrLn handle1 "Terminating Server"
+          "Hello text" -> hPutStrLn handle1   ("HELO text\nIP: " ++ show sockAd ++ "\nPort: " ++ show port  ++ "\nStudentID: 12301730\n") >> loop
+          _      -> broadcast (name ++ ": " ++ line) >> loop
 
     killThread reader
     broadcast ("<--- " ++ name ++ "left the channel")

@@ -1,3 +1,3 @@
 module Types where
 
-data 
+data Message =

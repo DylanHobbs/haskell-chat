@@ -18,6 +18,9 @@ library
   exposed-modules:     Main
   build-depends:       base >= 4.7 && < 5
                      , network
+                     , text
+                     , containers
+                     , stm
   default-language:    Haskell2010
 
 executable chat-exe
@@ -27,6 +30,9 @@ executable chat-exe
   build-depends:       base
                      , chat
                      , network
+                     , text
+                     , containers
+                     , stm
   default-language:    Haskell2010
 
 test-suite chat-test
@@ -36,6 +42,9 @@ test-suite chat-test
   build-depends:       base
                      , chat
                      , network
+                     , text
+                     , containers
+                     , stm
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 

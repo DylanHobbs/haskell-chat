@@ -30,7 +30,7 @@ version = Version [0,1,0,0] []
 bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath
 
 bindir     = "/Users/dylanhobbs/chat/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/bin"
-libdir     = "/Users/dylanhobbs/chat/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/lib/x86_64-osx-ghc-8.0.2/chat-0.1.0.0-DkI6kIrlI9sFwbJMVEcbWY"
+libdir     = "/Users/dylanhobbs/chat/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/lib/x86_64-osx-ghc-8.0.2/chat-0.1.0.0-Ivlui4jrG6o9cYAS2uoEZH"
 dynlibdir  = "/Users/dylanhobbs/chat/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/lib/x86_64-osx-ghc-8.0.2"
 datadir    = "/Users/dylanhobbs/chat/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/share/x86_64-osx-ghc-8.0.2/chat-0.1.0.0"
 libexecdir = "/Users/dylanhobbs/chat/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/libexec"

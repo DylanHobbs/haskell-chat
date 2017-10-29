@@ -7,6 +7,8 @@ import Control.Concurrent
 import Control.Monad.Fix (fix)
 import Control.Exception
 import Control.Monad (when)
+import Text.Printf (printf)
+
 
 type Msg = (Int, String)
 
@@ -17,6 +19,7 @@ main = do
     sock <- socket AF_INET Stream 0
     setSocketOption sock ReuseAddr 1
     bind sock (SockAddrInet port iNADDR_ANY)
+    print ("Service Started on port: " ++ show port)
     listen sock 2
     chan <- newChan
 
@@ -59,6 +62,7 @@ runConn (sock, sockAd) chan msgNum = do
         port <- socketPort sock
         case line of
           "quit" -> hPutStrLn handle1 "Bye!"
+          "Kill Service" ->  hPutStrLn handle1 "Terminating Server"
           "Hello text" -> hPutStrLn handle1   ("HELO text\nIP: " ++ show sockAd ++ "\nPort: " ++ show port  ++ "\nStudentID: 12301730\n") >> loop
           _      -> broadcast (name ++ ": " ++ line) >> loop
 

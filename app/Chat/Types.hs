@@ -28,7 +28,63 @@ data Channel = Channel {
             , channelChan  :: TChan Message
             }
 
-type Message = (Int, String)
+
+
+data Message = JoinRequest String String String String
+             | JoinResponse
+             | LeaveRequest String String String
+             | LeaveResponse
+             | Disconnect String String String
+             | ChatError
+             | MessageSend String String String String
+             | MessageReceive
+             | HelloText String
+             | Terminate
+             | Login String
+             | Quit
+              deriving (Show, Eq)
+--
+--data JoinRequest = JoinRequest {
+--                  join_resquest_name :: String,
+--                  client_IP :: String,
+--                  port_join_request :: PortNumber,
+--                  c_name :: String
+--                }
+--
+--data JoinResponse = JoinResponse {
+--                  join_response_name :: String,
+--                  server_IP :: String,
+--                  port_join_response :: PortNumber,
+--                  room_ref :: Channel,
+--                  join_id :: Int
+--                }
+--
+--data LeaveRequest = LeaveRequest {
+--                  chatroom_name :: String,
+--                  join_id :: Int,
+--                  c_name :: String
+--                }
+--
+--data LeaveResponse = LeaveResponse {
+--                  chatroom_name :: String,
+--                  join_id :: Int
+--                }
+--
+--data Terminate = Terminate {
+--                  disconnect_IP :: String,
+--                  port :: PortNumber,
+--                  c_name :: String
+--                }
+--
+--data ChatError = ChatError {
+--                  error_code :: Int,
+--                  error_desc :: String
+--                }
+--
+--data MessageSend = MessageSend {
+--                  error_code :: Int,
+--                  error_desc :: String
+--                }
 
 
 --data JoinResponse = JoinResponse {

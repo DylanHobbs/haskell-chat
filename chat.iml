@@ -23,5 +23,6 @@
     <orderEntry type="library" name="containers-0.5.7.1" level="project" />
     <orderEntry type="library" name="text-1.2.2.2" level="project" />
     <orderEntry type="library" name="stm-2.4.4.1" level="project" />
+    <orderEntry type="library" name="split-0.2.3.2" level="project" />
   </component>
 </module>

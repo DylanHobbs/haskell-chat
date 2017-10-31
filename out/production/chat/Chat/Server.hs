@@ -6,8 +6,12 @@ import System.IO
 import Control.Concurrent
 import Control.Monad.Fix (fix)
 import Control.Exception
+import Data.List.Split
 import Control.Monad (when)
 import Text.Printf (printf)
+
+import Chat.Protocol
+import Chat.Types
 
 
 type Msg = (Int, String)
@@ -32,6 +36,12 @@ gogoServer = do
 getPort :: [String] -> PortNumber
 getPort a = read (head a) :: PortNumber
 
+parseArguments :: [String] -> [String]
+parseArguments (x:[]) = deepParse x
+parseArguments (x:xs) = deepParse x ++ parseArguments xs
+
+deepParse :: String -> String
+deepParse a = splitOn ":" a !! 1
 
 mainLoop :: Socket -> Chan Msg ->  Int -> IO ()
 mainLoop sock chan msgNum = do
@@ -47,7 +57,7 @@ runConn (sock, sockAd) chan msgNum = do
 
     hPutStr handle1 "Enter username: "
     name <- fmap init (hGetLine handle1)
-    broadcast ("---> " ++ name ++ " joined the channel")
+    broadcast ("---> " ++ name ++ " joined the global channel")
     hPutStrLn handle1 ("Welcome, " ++ name ++ "!")
 
     commLine <- dupChan chan
@@ -58,13 +68,25 @@ runConn (sock, sockAd) chan msgNum = do
         loop
 
     handle (\(SomeException _) -> return ()) $ fix $ \loop -> do
-        line <-fmap init (hGetLine handle1)
         port <- socketPort sock
-        case line of
-          "quit" -> hPutStrLn handle1 "Bye!"
-          "Kill Service" ->  hPutStrLn handle1 "Terminating Server"
-          "Hello text" -> hPutStrLn handle1   ("HELO text\nIP: " ++ show sockAd ++ "\nPort: " ++ show port  ++ "\nStudentID: 12301730\n") >> loop
-          _      -> broadcast (name ++ ": " ++ line) >> loop
+        command <- fmap parseCommand (hGetLine handle1)
+        case command of
+          Just (HelloText "text") -> do
+                            hPutStrLn handle1 ("HELO text\nIP: " ++ show sockAd ++ "\nPort: " ++ show port  ++ "\nStudentID: 12301730\n")
+                            loop
+          Just (JoinRequest body) -> do
+                            let full_body = "first:" ++ body
+                            let result = init $ init (splitOn "\n" full_body)
+                            (chatroom_name, client_ip, port, client_name) <- map deepParse result
+                            let (chatroom_name, client_ip, port, client_name) = map deepParse result
+                            hPutStrLn handle1 body
+                            loop
+          Just (Login name) -> do
+                           hPutStrLn handle1 ("Hello " ++ name)
+                           hPutStrLn handle1 "Yessir!"
+          Just (Disconnect _ _ client_name)  -> hPutStrLn handle1 "Bye!"
+          Just Terminate ->  hPutStrLn handle1 "Terminating Server"
+          _      -> hPutStrLn handle1 "Command not recongnised" >> loop
 
     killThread reader
     broadcast ("<--- " ++ name ++ "left the channel")

@@ -30,11 +30,11 @@ data Channel = Channel {
 
 
 
-data Message = JoinRequest String String String String
+data Message = JoinRequest String
              | JoinResponse
-             | LeaveRequest String String String
+             | LeaveRequest String
              | LeaveResponse
-             | Disconnect String String String
+             | Disconnect String
              | ChatError
              | MessageSend String String String String
              | MessageReceive

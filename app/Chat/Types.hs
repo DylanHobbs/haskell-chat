@@ -5,28 +5,44 @@ import Control.Concurrent.STM
 import System.IO
 import qualified Data.Map as Map
 import qualified Data.Set as Set
+import qualified Data.List as List
 
-data User = User {
-    userName :: String
-}
+type UserName = String
+type ChannelName = String
+
+--newtype ServerMap = ServerMap{mp :: Map.Map Int Client}
+--newServerMap = ServerMap Map.empty
 
 data Server = Server {
-                serverUsers    :: MVar (Map.Map User Client)
-              , serverChannels :: TVar (Map.Map String Channel)
+                serverUsers    :: MVar (Map.Map Int Client)
+              , serverChannels :: TVar (Map.Map ChannelName Channel)
               }
+newServer :: IO Server
+newServer = do
+  serverUsers    <- newMVar Map.empty
+  serverChannels <- newTVarIO Map.empty
+  return $ Server serverUsers serverChannels
 
 data Client = Client {
-                clientUser         :: User
+                clientId           :: Int
               , clientHandle       :: Handle
-              , clientChan         :: TChan Message
-              , clientChannelChans :: TVar (Map.Map String (TChan String))
+              , clientChannelChans :: TVar (Map.Map ChannelName (TChan Message))
               }
+newClient :: Int -> Handle -> IO Client
+newClient clientID handle = do
+              clientChannelChans <- newTVarIO Map.empty
+              return $ Client clientID handle clientChannelChans
 
 data Channel = Channel {
               channelName  :: String
-            , channelUsers :: TVar (Set.Set User)
+            , channelUsers :: TVar (Set.Set UserName)
             , channelChan  :: TChan Message
             }
+newChannel :: ChannelName -> Set.Set UserName -> STM Channel
+newChannel channelName users = do
+  channelUsers <- newTVar users
+  channelChan  <- newBroadcastTChan
+  return $ Channel channelName channelUsers channelChan
 
 
 
@@ -36,7 +52,7 @@ data Message = JoinRequest String
              | LeaveResponse
              | Disconnect String
              | ChatError
-             | MessageSend String String String String
+             | MessageSend String
              | MessageReceive
              | HelloText String
              | Terminate

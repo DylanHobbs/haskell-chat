@@ -10,16 +10,16 @@ import qualified Data.List as List
 type UserName = String
 type ChannelName = String
 
---newtype ServerMap = ServerMap{mp :: Map.Map Int Client}
---newServerMap = ServerMap Map.empty
+newtype ServerMap = ServerMap{sMap :: Map.Map Int Client}
+newServerMap = ServerMap Map.empty
 
 data Server = Server {
-                serverUsers    :: MVar (Map.Map Int Client)
+                serverUsers    :: MVar ServerMap
               , serverChannels :: TVar (Map.Map ChannelName Channel)
               }
 newServer :: IO Server
 newServer = do
-  serverUsers    <- newMVar Map.empty
+  serverUsers    <- newMVar newServerMap
   serverChannels <- newTVarIO Map.empty
   return $ Server serverUsers serverChannels
 

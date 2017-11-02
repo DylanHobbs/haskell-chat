@@ -58,8 +58,9 @@ mainLoop server sock chan msgNum clientNum = do
 
 addUser :: Server -> Int -> Client -> IO ()
 addUser Server {..} clientID client =
-  modifyMVar_ serverUsers $ \cur ->
-        return (Map.insert clientID client cur)
+  modifyMVar_ serverUsers $ \cur -> do
+        let a = sMap cur
+        return (Map.insert clientID client (sMap cur))
 
 printCurrentUsers Server{..} = do
     v <- readMVar serverUsers

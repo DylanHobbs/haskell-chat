@@ -10,8 +10,8 @@ import qualified Data.List as List
 type UserName = String
 type ChannelName = String
 
---newtype ServerMap = ServerMap{mp :: Map.Map Int Client}
---newServerMap = ServerMap Map.empty
+data User = User { userID :: Int }
+            deriving (Show, Ord, Eq)
 
 data Server = Server {
                 serverUsers    :: MVar (Map.Map Int Client)
@@ -25,20 +25,22 @@ newServer = do
 
 data Client = Client {
                 clientId           :: Int
+              , clientName         :: String
               , clientHandle       :: Handle
-              , clientChannelChans :: TVar (Map.Map ChannelName (TChan Message))
+              , connectedChannels :: TVar (Map.Map ChannelName (TChan Message))
               }
 newClient :: Int -> Handle -> IO Client
 newClient clientID handle = do
-              clientChannelChans <- newTVarIO Map.empty
-              return $ Client clientID handle clientChannelChans
+              connectedChannels <- newTVarIO Map.empty
+              let name = "[No Name Yet]"
+              return $ Client clientID name handle connectedChannels
 
 data Channel = Channel {
               channelName  :: String
-            , channelUsers :: TVar (Set.Set UserName)
+            , channelUsers :: TVar (Set.Set Int)
             , channelChan  :: TChan Message
             }
-newChannel :: ChannelName -> Set.Set UserName -> STM Channel
+newChannel :: ChannelName -> Set.Set Int -> STM Channel
 newChannel channelName users = do
   channelUsers <- newTVar users
   channelChan  <- newBroadcastTChan

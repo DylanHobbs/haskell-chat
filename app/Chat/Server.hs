@@ -31,17 +31,11 @@ gogoServer = do
     bind sock (SockAddrInet port iNADDR_ANY)
     print ("Service Started on port: " ++ show port)
     server <- newServer
-    listen sock 100
+    listen sock 10
     mainLoop server sock 0
 
 getPort :: [String] -> PortNumber
 getPort a = read (head a) :: PortNumber
-
-deepParse :: String -> String
-deepParse a = splitOn ":" a !! 1
-
-parseRequest :: Int -> String -> [String]
-parseRequest n body = map deepParse (take n (splitOn "\\n" ("first: " ++ body)))
 
 mainLoop :: Server -> Socket -> Int  -> IO ()
 mainLoop server sock clientID = do
@@ -51,16 +45,12 @@ mainLoop server sock clientID = do
     forkIO $ addUser server handle clientID `finally` hClose handle
     mainLoop server sock (clientID + 1)
 
---          if Map.member clientID cur
---            then return (cur, Nothing)
---            else do
 addUser :: Server -> Handle -> Int -> IO()
 addUser server@Server{..} handle clientID =
     modifyMVar_ serverUsers $ \cur -> do
               client <- newClient clientID handle
               gogoClient server client `finally` removeUser server clientID
               return (Map.insert clientID client cur)
-
 
 removeUser :: Server -> Int -> IO ()
 removeUser Server{..} userID =

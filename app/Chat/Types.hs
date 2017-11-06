@@ -49,6 +49,7 @@ newChannel channelName users = do
 
 
 data Message = JoinRequest String
+             | Text String
              | JoinResponse
              | LeaveRequest String
              | LeaveResponse

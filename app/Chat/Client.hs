@@ -43,12 +43,11 @@ gogoClient Server{..} client@Client{..} = do
         case command of
           Just (HelloText "text") ->
                             hPutStrLn clientHandle ("HELO text\nIP: 0" ++ "\nPort: 0"  ++ "\nStudentID: 12301730\n")
-          Just (JoinRequest body) -> atomically $ do
+          Just (JoinRequest body) -> do
                             let x = parseRequest 4 body
                             let [chatroom_name, client_ip, port, client_name] = x
-                            channelMap <- readTVar connectedChannels
-                            channel <- newChannel chatroom_name $ Set.singleton clientId
-                            modifyTVar' serverChannels $ Map.insert chatroom_name channel
+                            joinChatroom chatroom_name clientName
+                            print (client_name ++ "joined room: " ++ chatroom_name)
                             --hPutStrLn clientHandle ("Chatroom: " ++ chatroom_name ++ " Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
           Just (LeaveRequest body) -> do
                             let x = parseRequest 3 body
@@ -58,12 +57,23 @@ gogoClient Server{..} client@Client{..} = do
                             let x = parseRequest 3 body
                             let [client_ip, port, client_name] = x
                             hPutStrLn clientHandle ("Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
-          Just (MessageSend body) -> do
+          Just (MessageSend body) -> atomically $ do
                             let x = parseRequest 4 body
                             let [room_ref, join_id, client_name, message] = x
-                            hPutStrLn clientHandle ("Room Ref: " ++ room_ref ++ " Join ID: " ++ join_id ++ " Client Name: " ++ client_name ++ " Message: " ++ message)
+                            channelMap <- readTVar serverChannels
+                            case Map.lookup room_ref channelMap of
+                              Just chan -> writeTChan (channelChan chan) (Text message)
+                              Nothing -> return ()
+                            --hPutStrLn clientHandle ("Room Ref: " ++ room_ref ++ " Join ID: " ++ join_id ++ " Client Name: " ++ client_name ++ " Message: " ++ message)
           Just Terminate ->  hPutStrLn clientHandle "Terminating Server"
           _      -> hPutStrLn clientHandle "Command not recongnised"
+
+
+--        handleMessage (Tell channelName msg) _ = atomically $ do
+--              channelMap <- readTVar serverChannels
+--              case Map.lookup channelName channelMap of
+--                Just channel -> tellMessage channel $ TellReply channelName clientUser msg
+--                Nothing      -> return ()
 
     run :: IO ()
     run = forever $ do
@@ -76,13 +86,16 @@ gogoClient Server{..} client@Client{..} = do
         Right message -> deliverMessage client message
 
     deliverMessage :: Client -> Message -> IO ()
-    deliverMessage Client {..} message =
+    deliverMessage Client {..} message = do
+         print "Message delivaer"
          case message of
-           MessageSend body -> do
-            let x = parseRequest 4 body
-            let [room_ref, join_id, client_name, message] = x
-            printToHandle clientHandle message
+           Text body -> printToHandle clientHandle body
            _ -> printToHandle clientHandle "Could not read message"
+
+    joinChatroom room name = atomically $ do
+         channelMap <- readTVar connectedChannels
+         channel <- newChannel room $ Set.singleton clientId
+         modifyTVar' serverChannels $ Map.insert room channel
 
 
     deepParse :: String -> String
@@ -90,4 +103,5 @@ gogoClient Server{..} client@Client{..} = do
 
     parseRequest :: Int -> String -> [String]
     parseRequest n body = map deepParse (take n (splitOn "\\n" ("first: " ++ body)))
+
 

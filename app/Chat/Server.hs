@@ -42,15 +42,15 @@ mainLoop server sock clientID = do
     (acceptedSocket, sockAd) <- accept sock
     handle <- socketToHandle acceptedSocket ReadWriteMode
     hSetBuffering handle NoBuffering
+    print ("Client: " ++ show clientID ++ " connected to the server")
     forkIO $ addUser server handle clientID `finally` hClose handle
     mainLoop server sock (clientID + 1)
 
 addUser :: Server -> Handle -> Int -> IO()
-addUser server@Server{..} handle clientID =
-    modifyMVar_ serverUsers $ \cur -> do
+addUser server@Server{..} handle clientID = do
               client <- newClient clientID handle
-              gogoClient server client `finally` removeUser server clientID
-              return (Map.insert clientID client cur)
+              print ("Client: " ++ show clientID ++ " added to server list")
+              gogoClient server client clientID `finally` removeUser server clientID
 
 removeUser :: Server -> Int -> IO ()
 removeUser Server{..} userID =

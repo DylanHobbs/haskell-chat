@@ -28,9 +28,10 @@ printToHandle handle = hPrintf handle "%s\n"
 --sendResponse :: Client -> Message -> IO ()
 --sendResponse Client {..} = printToHandle clientHandle
 
-gogoClient :: Server -> Client -> IO ()
-gogoClient Server{..} client@Client{..} = do
+gogoClient :: Server -> Client -> Int -> IO ()
+gogoClient Server{..} client@Client{..} client_ID = do
     -- launch command reader
+    print ("Client: " ++ show client_ID ++ " has the field")
     commandReader <- forkIO readCommands
     run `finally` killThread commandReader
 --      chans <- readTVarIO connectedChannels
@@ -38,6 +39,7 @@ gogoClient Server{..} client@Client{..} = do
 --          handleMessage (Disconnect body)
     where
     readCommands = forever $ do
+        print ("Client: " ++ show client_ID ++ " is waiting for commands")
         command <- hGetLine clientHandle
         command <- fmap parseCommand (hGetLine clientHandle)
         case command of

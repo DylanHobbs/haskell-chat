@@ -46,6 +46,7 @@ mainLoop server sock clientID = do
     forkIO $ addUser server handle clientID `finally` hClose handle
     mainLoop server sock (clientID + 1)
 
+-- TODO: Add users to list
 addUser :: Server -> Handle -> Int -> IO()
 addUser server@Server{..} handle clientID = do
               client <- newClient clientID handle

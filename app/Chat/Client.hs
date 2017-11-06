@@ -1,5 +1,6 @@
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE NamedFieldPuns #-}
 
 module Chat.Client where
 
@@ -10,7 +11,7 @@ import Control.Concurrent
 import Control.Monad.Fix (fix)
 import Control.Exception
 import Data.List.Split
-import Control.Monad (when,forever,forM_)
+import Control.Monad (when,forever,forM_,unless)
 import Text.Printf (printf,hPrintf)
 import Debug.Trace
 
@@ -33,7 +34,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
     -- launch command reader
     print ("Client: " ++ show client_ID ++ " has the field")
     commandReader <- forkIO readCommands
-    run `finally` killThread commandReader
+    run clientId `finally` killThread commandReader
 --      chans <- readTVarIO connectedChannels
 --      forM_ (Map.keys chans) $ \name ->
 --          handleMessage (Disconnect body)
@@ -59,13 +60,11 @@ gogoClient Server{..} client@Client{..} client_ID = do
                             let x = parseRequest 3 body
                             let [client_ip, port, client_name] = x
                             hPutStrLn clientHandle ("Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
-          Just (MessageSend body) -> atomically $ do
+          Just (MessageSend body) -> do
                             let x = parseRequest 4 body
                             let [room_ref, join_id, client_name, message] = x
-                            channelMap <- readTVar serverChannels
-                            case Map.lookup room_ref channelMap of
-                              Just chan -> writeTChan (channelChan chan) (Text message)
-                              Nothing -> return ()
+                            print ("MESSAGE: " ++ client_name ++ "-> " ++ room_ref)
+                            sendMessage room_ref client_name message
                             --hPutStrLn clientHandle ("Room Ref: " ++ room_ref ++ " Join ID: " ++ join_id ++ " Client Name: " ++ client_name ++ " Message: " ++ message)
           Just Terminate ->  hPutStrLn clientHandle "Terminating Server"
           _      -> hPutStrLn clientHandle "Command not recongnised"
@@ -77,8 +76,9 @@ gogoClient Server{..} client@Client{..} client_ID = do
 --                Just channel -> tellMessage channel $ TellReply channelName clientUser msg
 --                Nothing      -> return ()
 
-    run :: IO ()
-    run = forever $ do
+    run :: Int -> IO ()
+    run id = forever $ do
+      --print (show id ++ " is running away with it")
       r <- try . atomically $ do
         chans <- readTVar connectedChannels
         foldr (orElse . readTChan) retry
@@ -86,6 +86,13 @@ gogoClient Server{..} client@Client{..} client_ID = do
       case r of
         Left (e :: SomeException) -> print "derp"
         Right message -> deliverMessage client message
+
+    sendMessage room name message = atomically $ do
+        channelMap <- readTVar serverChannels
+        case Map.lookup room channelMap of
+            Just chan -> writeTChan (channelChan chan) (Text message)
+            Nothing -> return ()
+
 
     deliverMessage :: Client -> Message -> IO ()
     deliverMessage Client {..} message = do
@@ -95,9 +102,21 @@ gogoClient Server{..} client@Client{..} client_ID = do
            _ -> printToHandle clientHandle "Could not read message"
 
     joinChatroom room name = atomically $ do
-         channelMap <- readTVar connectedChannels
-         channel <- newChannel room $ Set.singleton clientId
-         modifyTVar' serverChannels $ Map.insert room channel
+         clientChannelMap <- readTVar connectedChannels
+         unless (Map.member room clientChannelMap) $ do
+            channelMap <- readTVar serverChannels
+            channel@Channel{channelChan} <-
+              case Map.lookup room channelMap of
+                  Just (channel@Channel{channelUsers}) -> do
+                    modifyTVar' channelUsers $ Set.insert clientId
+                    return channel
+                  Nothing                             -> do
+                    channel <- newChannel room $ Set.singleton clientId
+                    modifyTVar' serverChannels $ Map.insert room channel
+                    return channel
+            client_chans <- dupTChan channelChan
+            modifyTVar' connectedChannels $ Map.insert room client_chans
+
 
 
     deepParse :: String -> String

@@ -55,7 +55,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               hPutStrLn clientHandle ("JOINED_CHATROOM:" ++ chatroom_name)
                               hPutStrLn clientHandle "SERVER_IP:10.62.0.58"
                               hPutStrLn clientHandle "PORT:9999"
-                              hPutStrLn clientHandle ("ROOM_REF:" ++ chatroom_name)
+                              hPutStrLn clientHandle "ROOM_REF: 0"
                               hPutStrLn clientHandle "JOIN_ID:0"
                               print ("JOINING CHANNEL: " ++ client_name ++ "joined room: " ++ chatroom_name)
                               --hPutStrLn clientHandle ("Chatroom: " ++ chatroom_name ++ " Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)

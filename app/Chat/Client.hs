@@ -46,7 +46,11 @@ gogoClient Server{..} client@Client{..} client_ID = do
           let [command, first] = splitOn " " line
 
           case [command, first] of
-            ["HELO","BASE_TEST"] -> hPutStr clientHandle ("HELO text\nIP: 0" ++ "\nPort: 0"  ++ "\nStudentID: 12301730\n")
+            ["HELO","BASE_TEST"] -> do
+                printToHandle clientHandle "HELO text"
+                printToHandle clientHandle "IP: 0"
+                printToHandle clientHandle "Port: 0"
+                printToHandle clientHandle "StudentID: 12301730"
             ["JOIN_CHATROOM:", chatroom_name]-> do
                               client_ip <- hGetLine clientHandle
                               port <- hGetLine clientHandle

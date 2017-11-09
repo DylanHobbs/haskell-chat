@@ -40,8 +40,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
 --          handleMessage (Disconnect body)
     where
       readCommands = forever $ do
-          print ("Client: "
-          ++ show client_ID ++ " is waiting for commands")
+          print ("Client: " ++ show client_ID ++ " is waiting for commands")
           command <- fmap parseCommand (hGetLine clientHandle)
           print command
           case command of

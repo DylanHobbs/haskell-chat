@@ -77,8 +77,10 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               join_id <- hGetLine clientHandle
                               client_name <- hGetLine clientHandle
                               message <- hGetLine clientHandle
+                              let ref_int = read room_ref :: Int
+                              chanName <- getRoomRef ref_int
                               print ("MESSAGE: " ++ client_name ++ "-> " ++ room_ref)
-                              sendMessage room_ref client_name message
+                              sendMessage chanName client_name message
                               --hPutStrLn clientHandle ("Room Ref: " ++ room_ref ++ " Join ID: " ++ join_id ++ " Client Name: " ++ client_name ++ " Message: " ++ message)
             ["KILL_SERVICE", _] ->  hPutStrLn clientHandle "Terminating Server"
             _      -> hPutStrLn clientHandle "Command not recongnised"
@@ -128,11 +130,20 @@ gogoClient Server{..} client@Client{..} client_ID = do
                       modifyTVar' channelUsers $ Set.insert clientId
                       return channel
                     Nothing                             -> do
+                      channelNums <- readTVar maxChannels
+                      room2name <- readTVar roomToName
+                      modifyTVar' roomToName $ Map.insert channelNums room
+                      modifyTVar' maxChannels (+ 1)
                       channel <- newChannel room $ Set.singleton clientId
                       modifyTVar' serverChannels $ Map.insert room channel
                       return channel
               client_chans <- dupTChan channelChan
               modifyTVar' connectedChannels $ Map.insert room client_chans
+
+      getRoomRef ref = atomically $ do
+          room2name <- readTVar roomToName
+          case Map.lookup ref room2name of
+              Just name -> return name
 
 --      leaveChatroom room name = do
 --           clientChannelMap <- readTVar connectedChannels

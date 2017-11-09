@@ -9,6 +9,7 @@ import qualified Data.List as List
 
 type UserName = String
 type ChannelName = String
+type RoomRef = Int
 
 data User = User { userID :: Int }
             deriving (Show, Ord, Eq)
@@ -16,12 +17,16 @@ data User = User { userID :: Int }
 data Server = Server {
                 serverUsers    :: MVar (Map.Map Int Client)
               , serverChannels :: TVar (Map.Map ChannelName Channel)
+              , roomToName     :: TVar (Map.Map RoomRef ChannelName)
+              , maxChannels    :: TVar Int
               }
 newServer :: IO Server
 newServer = do
   serverUsers    <- newMVar Map.empty
   serverChannels <- newTVarIO Map.empty
-  return $ Server serverUsers serverChannels
+  roomToName <- newTVarIO Map.empty
+  maxChannels    <- newTVarIO 0
+  return $ Server serverUsers serverChannels roomToName maxChannels
 
 data Client = Client {
                 clientId           :: Int

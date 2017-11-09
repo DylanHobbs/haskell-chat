@@ -52,10 +52,11 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               port <- hGetLine clientHandle
                               client_name <- hGetLine clientHandle
                               joinChatroom chatroom_name clientName
+                              ref <- getRefFromRoom chatroom_name
                               hPutStrLn clientHandle ("JOINED_CHATROOM:" ++ chatroom_name)
                               hPutStrLn clientHandle "SERVER_IP:10.62.0.58"
                               hPutStrLn clientHandle "PORT:9999"
-                              hPutStrLn clientHandle "ROOM_REF: 0"
+                              hPutStrLn clientHandle ("ROOM_REF:" ++ show ref)
                               hPutStrLn clientHandle "JOIN_ID:0"
                               print ("JOINING CHANNEL: " ++ client_name ++ "joined room: " ++ chatroom_name)
                               --hPutStrLn clientHandle ("Chatroom: " ++ chatroom_name ++ " Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
@@ -78,7 +79,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               client_name <- hGetLine clientHandle
                               message <- hGetLine clientHandle
                               let ref_int = read room_ref :: Int
-                              chanName <- getRoomRef ref_int
+                              chanName <- getRoomFromRef ref_int
                               print ("MESSAGE: " ++ client_name ++ "-> " ++ room_ref)
                               sendMessage chanName client_name message
                               --hPutStrLn clientHandle ("Room Ref: " ++ room_ref ++ " Join ID: " ++ join_id ++ " Client Name: " ++ client_name ++ " Message: " ++ message)
@@ -134,16 +135,21 @@ gogoClient Server{..} client@Client{..} client_ID = do
                       room2name <- readTVar roomToName
                       modifyTVar' roomToName $ Map.insert channelNums room
                       modifyTVar' maxChannels (+ 1)
-                      channel <- newChannel room $ Set.singleton clientId
+                      channel <- newChannel room channelNums $ Set.singleton clientId
                       modifyTVar' serverChannels $ Map.insert room channel
                       return channel
               client_chans <- dupTChan channelChan
               modifyTVar' connectedChannels $ Map.insert room client_chans
 
-      getRoomRef ref = atomically $ do
+      getRoomFromRef ref = atomically $ do
           room2name <- readTVar roomToName
           case Map.lookup ref room2name of
               Just name -> return name
+
+      getRefFromRoom room = atomically $ do
+          channelMap <- readTVar serverChannels
+          case Map.lookup room channelMap of
+              Just (channel@Channel{..}) -> return channelRef
 
 --      leaveChatroom room name = do
 --           clientChannelMap <- readTVar connectedChannels

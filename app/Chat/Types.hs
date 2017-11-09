@@ -42,14 +42,15 @@ newClient clientID handle = do
 
 data Channel = Channel {
               channelName  :: String
+            , channelRef   :: Int
             , channelUsers :: TVar (Set.Set Int)
             , channelChan  :: TChan Message
             }
-newChannel :: ChannelName -> Set.Set Int -> STM Channel
-newChannel channelName users = do
+newChannel :: ChannelName -> Int -> Set.Set Int -> STM Channel
+newChannel channelName ref users  = do
   channelUsers <- newTVar users
   channelChan  <- newBroadcastTChan
-  return $ Channel channelName channelUsers channelChan
+  return $ Channel channelName ref channelUsers channelChan
 
 
 

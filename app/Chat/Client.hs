@@ -46,18 +46,25 @@ gogoClient Server{..} client@Client{..} client_ID = do
           let [command, first] = splitOn " " line
 
           case [command, first] of
-            ["HELLO","BASE_TEST"] -> hPutStr clientHandle ("HELO text\nIP: 0" ++ "\nPort: 0"  ++ "\nStudentID: 12301730\n")
+            ["HELO","BASE_TEST"] -> hPutStr clientHandle ("HELO text\nIP: 0" ++ "\nPort: 0"  ++ "\nStudentID: 12301730\n")
             ["JOIN_CHATROOM:", chatroom_name]-> do
                               client_ip <- hGetLine clientHandle
                               port <- hGetLine clientHandle
                               client_name <- hGetLine clientHandle
                               joinChatroom chatroom_name clientName
+                              hPutStr clientHandle ("JOINED_CHATROOM:" ++ chatroom_name)
+                              hPutStr clientHandle "SERVER_IP:0"
+                              hPutStr clientHandle "PORT:0"
+                              hPutStr clientHandle ("ROOM_REF:" ++ chatroom_name)
+                              hPutStr clientHandle "JOIN_ID:0"
                               print ("JOINING CHANNEL: " ++ client_name ++ "joined room: " ++ chatroom_name)
                               --hPutStrLn clientHandle ("Chatroom: " ++ chatroom_name ++ " Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
             ["LEAVE_CHATROOM:", room_ref] -> do
                               join_id <- hGetLine clientHandle
                               client_name <- hGetLine clientHandle
                               leaveChatroom room_ref client_name
+                              hPutStr clientHandle ("LEFT_CHATROOM:" ++ room_ref)
+                              hPutStr clientHandle ("JOIN_ID:" ++ room_ref)
                               print ("LEAVING CHANNEL: " ++ client_name ++ " left room: " ++ room_ref)
                               --hPutStrLn clientHandle ("Room: " ++ room_ref ++ " Join_id: " ++ join_id ++ " Client Name: " ++ client_name)
             ["DISCONNECT:", client_ip] -> do

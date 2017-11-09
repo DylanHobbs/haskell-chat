@@ -52,11 +52,11 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               port <- hGetLine clientHandle
                               client_name <- hGetLine clientHandle
                               joinChatroom chatroom_name clientName
-                              hPutStr clientHandle ("JOINED_CHATROOM:" ++ chatroom_name)
-                              hPutStr clientHandle "SERVER_IP:0"
-                              hPutStr clientHandle "PORT:0"
-                              hPutStr clientHandle ("ROOM_REF:" ++ chatroom_name)
-                              hPutStr clientHandle "JOIN_ID:0"
+                              hPutStrLn clientHandle ("JOINED_CHATROOM:" ++ chatroom_name)
+                              hPutStrLn clientHandle "SERVER_IP:0"
+                              hPutStrLn clientHandle "PORT:0"
+                              hPutStrLn clientHandle ("ROOM_REF:" ++ chatroom_name)
+                              hPutStrLn clientHandle "JOIN_ID:0"
                               print ("JOINING CHANNEL: " ++ client_name ++ "joined room: " ++ chatroom_name)
                               --hPutStrLn clientHandle ("Chatroom: " ++ chatroom_name ++ " Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
             ["LEAVE_CHATROOM:", room_ref] -> do

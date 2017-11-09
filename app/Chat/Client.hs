@@ -87,7 +87,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               let ref_int = read room_ref :: Int
                               chanName <- getRoomFromRef ref_int
                               print ("MESSAGE: " ++ client_name ++ "-> " ++ room_ref)
-                              sendMessage chanName client_name message
+                              sendMessage room_ref chanName client_name message
                               --hPutStrLn clientHandle ("Room Ref: " ++ room_ref ++ " Join ID: " ++ join_id ++ " Client Name: " ++ client_name ++ " Message: " ++ message)
             ["KILL_SERVICE", _] ->  hPutStrLn clientHandle "Terminating Server"
             _      -> hPutStrLn clientHandle "Command not recongnised"
@@ -113,10 +113,10 @@ gogoClient Server{..} client@Client{..} client_ID = do
                 return channel
           modifyTVar' connectedChannels $ Map.delete room
 
-      sendMessage room name message = atomically $ do
+      sendMessage room_ref room name message = atomically $ do
           channelMap <- readTVar serverChannels
           case Map.lookup room channelMap of
-              Just chan -> writeTChan (channelChan chan) (Text message)
+              Just chan -> writeTChan (channelChan chan) (Text (show room_ref) name message)
               Nothing -> return ()
 
 
@@ -124,7 +124,10 @@ gogoClient Server{..} client@Client{..} client_ID = do
       deliverMessage Client {..} message = do
            print "Message delivaer"
            case message of
-             Text body -> printToHandle clientHandle body
+             Text room_ref name message -> do
+                printToHandle clientHandle ("CHAT:" ++ room_ref)
+                printToHandle clientHandle (name)
+                printToHandle clientHandle (message)
              _ -> printToHandle clientHandle "Could not read message"
 
       joinChatroom room name = atomically $ do

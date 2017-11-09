@@ -41,7 +41,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
     where
       readCommands = forever $ do
           print ("Client: " ++ show client_ID ++ " is waiting for commands")
-          command <- hGetLine clientHandle
+          --command <- hGetLine clientHandle
           command <- fmap parseCommand (hGetLine clientHandle)
           case command of
             Just (HelloText "text") ->
@@ -50,18 +50,20 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               let x = parseRequest 4 body
                               let [chatroom_name, client_ip, port, client_name] = x
                               joinChatroom chatroom_name clientName
-                              print (client_name ++ "joined room: " ++ chatroom_name)
+                              print ("JOINING CHANNEL: " ++ client_name ++ "joined room: " ++ chatroom_name)
                               --hPutStrLn clientHandle ("Chatroom: " ++ chatroom_name ++ " Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
             Just (LeaveRequest body) -> do
                               let x = parseRequest 3 body
                               let [room_ref, join_id, client_name] = x
                               leaveChatroom room_ref client_name
-                              print (client_name ++ " left room: " ++ room_ref)
+                              print ("LEAVING CHANNEL: " ++ client_name ++ " left room: " ++ room_ref)
                               --hPutStrLn clientHandle ("Room: " ++ room_ref ++ " Join_id: " ++ join_id ++ " Client Name: " ++ client_name)
             Just (Disconnect body) -> do
                               let x = parseRequest 3 body
                               let [client_ip, port, client_name] = x
-                              hPutStrLn clientHandle ("Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
+                              print ("DISCONNECT: " ++ client_name)
+                              --disconnect client_ip client_name
+                              --hPutStrLn clientHandle ("Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
             Just (MessageSend body) -> do
                               let x = parseRequest 4 body
                               let [room_ref, join_id, client_name, message] = x
@@ -70,13 +72,6 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               --hPutStrLn clientHandle ("Room Ref: " ++ room_ref ++ " Join ID: " ++ join_id ++ " Client Name: " ++ client_name ++ " Message: " ++ message)
             Just Terminate ->  hPutStrLn clientHandle "Terminating Server"
             _      -> hPutStrLn clientHandle "Command not recongnised"
-
-
-  --        handleMessage (Tell channelName msg) _ = atomically $ do
-  --              channelMap <- readTVar serverChannels
-  --              case Map.lookup channelName channelMap of
-  --                Just channel -> tellMessage channel $ TellReply channelName clientUser msg
-  --                Nothing      -> return ()
 
       run :: Int -> IO ()
       run id = forever $ do

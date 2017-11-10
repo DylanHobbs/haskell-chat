@@ -22,13 +22,6 @@ import Chat.Protocol
 import Chat.Types
 import Control.Concurrent.STM
 
-
-printToHandle :: Handle -> String -> IO ()
-printToHandle handle = hPrintf handle "%s\n"
-
---sendResponse :: Client -> Message -> IO ()
---sendResponse Client {..} = printToHandle clientHandle
-
 gogoClient :: Server -> Client -> Int -> IO ()
 gogoClient Server{..} client@Client{..} client_ID = do
     -- launch command reader
@@ -52,11 +45,11 @@ gogoClient Server{..} client@Client{..} client_ID = do
           print $ "First: " ++ first
 
           case [command, first] of
-            ["HELO", text] -> do
-                hPutStrLn clientHandle $ "HELO " ++ text
-                hPutStrLn clientHandle "IP: 0"
-                hPutStrLn clientHandle "Port: 0"
-                hPutStrLn clientHandle "StudentID: 12301730"
+            ["HELO", text] ->
+                hPutStrLn clientHandle ("HELO " ++ text ++ "\nIP:0" ++ "\nPort:0" ++ "\nStudentID:12301730")
+--                hPutStrLn clientHandle "IP: 0"
+--                hPutStrLn clientHandle "Port: 0"
+--                hPutStrLn clientHandle "StudentID: 12301730"
             ["JOIN_CHATROOM:", chatroom_name]-> do
                               client_ip <- hGetLine clientHandle
                               port <- hGetLine clientHandle

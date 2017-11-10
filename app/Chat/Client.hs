@@ -42,9 +42,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
       readCommands = forever $ do
           print ("Client: " ++ show client_ID ++ " is waiting for commands")
           line <- hGetLine clientHandle
-          --TODO: parse this to take care of nulls in eiher, ie fix commmand not recognised
           let x = splitOn " " line
-          print $ "BOOB:" ++ head x
           [command, first] <-
             if length x > 2 || null (tail x)
               then return ["", ""]
@@ -55,10 +53,10 @@ gogoClient Server{..} client@Client{..} client_ID = do
 
           case [command, first] of
             ["HELO", text] -> do
-                printToHandle clientHandle $ "HELO " ++ text
-                printToHandle clientHandle "IP: 0"
-                printToHandle clientHandle "Port: 0"
-                printToHandle clientHandle "StudentID: 12301730"
+                hPutStrLn clientHandle $ "HELO " ++ text
+                hPutStrLn clientHandle "IP: 0"
+                hPutStrLn clientHandle "Port: 0"
+                hPutStrLn clientHandle "StudentID: 12301730"
             ["JOIN_CHATROOM:", chatroom_name]-> do
                               client_ip <- hGetLine clientHandle
                               port <- hGetLine clientHandle
@@ -96,7 +94,9 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               sendMessage room_ref chanName client_name message
                               --hPutStrLn clientHandle ("Room Ref: " ++ room_ref ++ " Join ID: " ++ join_id ++ " Client Name: " ++ client_name ++ " Message: " ++ message)
             ["KILL_SERVICE", _] ->  hPutStrLn clientHandle "Terminating Server"
-            ["",""]      -> hPutStrLn clientHandle "Command not recongnised"
+            ["",""]      -> do
+                hPutStrLn clientHandle "ERROR_CODE:0"
+                hPutStrLn clientHandle "ERROR_DESCRIPTION:Command not recognised"
 
       run :: Int -> IO ()
       run id = forever $ do
@@ -131,10 +131,10 @@ gogoClient Server{..} client@Client{..} client_ID = do
            print "Message delivaer"
            case message of
              Text room_ref name message -> do
-                printToHandle clientHandle ("CHAT:" ++ room_ref)
-                printToHandle clientHandle (name)
-                printToHandle clientHandle (message)
-             _ -> printToHandle clientHandle "Could not read message"
+                hPutStrLn clientHandle ("CHAT:" ++ room_ref)
+                hPutStrLn clientHandle name
+                hPutStrLn clientHandle message
+             _ -> hPutStrLn clientHandle "Could not read message"
 
       joinChatroom room name = atomically $ do
            clientChannelMap <- readTVar connectedChannels

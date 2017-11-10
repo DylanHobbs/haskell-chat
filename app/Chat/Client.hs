@@ -41,9 +41,15 @@ gogoClient Server{..} client@Client{..} client_ID = do
     where
       readCommands = forever $ do
           print ("Client: " ++ show client_ID ++ " is waiting for commands")
-          --command <- hGetLine clientHandle
           line <- hGetLine clientHandle
-          let [command, first] = splitOn " " line
+          --TODO: parse this to take care of nulls in eiher, ie fix commmand not recognised
+          let x = splitOn " " line
+          print $ "BOOB:" ++ head x
+          [command, first] <-
+            if length x > 2 || null (tail x)
+              then return ["", ""]
+              else return x
+
           print $ "Command: " ++ command
           print $ "First: " ++ first
 
@@ -90,7 +96,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               sendMessage room_ref chanName client_name message
                               --hPutStrLn clientHandle ("Room Ref: " ++ room_ref ++ " Join ID: " ++ join_id ++ " Client Name: " ++ client_name ++ " Message: " ++ message)
             ["KILL_SERVICE", _] ->  hPutStrLn clientHandle "Terminating Server"
-            _      -> hPutStrLn clientHandle "Command not recongnised"
+            ["",""]      -> hPutStrLn clientHandle "Command not recongnised"
 
       run :: Int -> IO ()
       run id = forever $ do

@@ -46,7 +46,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
 
           case [command, first] of
             ["HELO", text] ->
-                hPutStrLn clientHandle ("HELO " ++ text ++ "\nIP:0" ++ "\nPort:0" ++ "\nStudentID:12301730")
+                hPutStrLn clientHandle ("PELO " ++ text ++ "\nIP:0" ++ "\nPort:0" ++ "\nStudentID:12301730")
 --                hPutStrLn clientHandle "IP: 0"
 --                hPutStrLn clientHandle "Port: 0"
 --                hPutStrLn clientHandle "StudentID: 12301730"

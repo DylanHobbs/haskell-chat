@@ -82,13 +82,21 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               let message = client_name ++ " has joined the room"
                               sendMessage ref chatroom_name client_name message 0
                               --hPutStrLn clientHandle ("Chatroom: " ++ chatroom_name ++ " Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
-            ["LEAVE_CHATROOM:", room_ref] -> do
+            ["LEAVE_CHATROOM:", rr] -> do
+                              -- Parse rest of input
                               join_id <- hGetLine clientHandle
                               cn <- hGetLine clientHandle
+                              let room_ref = filter (/= '\r') rr
                               let client_name = parseFilter cn
-                              leaveChatroom room_ref client_name
-                              hPutStr clientHandle ("LEFT_CHATROOM:" ++ room_ref)
-                              hPutStr clientHandle ("JOIN_ID:" ++ room_ref)
+
+                              -- Get room name
+                              room <- getRoomFromRef (read room_ref :: Int)
+                              -- Perform leave
+                              leaveChatroom room client_name
+
+                              -- Response
+                              hPutStrLn clientHandle ("LEFT_CHATROOM:" ++ room_ref)
+                              hPutStrLn clientHandle ("JOIN_ID:" ++ room_ref)
                               print ("LEAVING CHANNEL: " ++ client_name ++ " left room: " ++ room_ref)
                               --hPutStrLn clientHandle ("Room: " ++ room_ref ++ " Join_id: " ++ join_id ++ " Client Name: " ++ client_name)
             ["DISCONNECT:", client_ip] -> do

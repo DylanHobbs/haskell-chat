@@ -95,19 +95,24 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               --disconnect client_ip client_name
                               --hPutStrLn clientHandle ("Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
             ["CHAT:", room_ref] -> do
+                              -- parse request line by line
                               join_id <- hGetLine clientHandle
-
                               cn <- hGetLine clientHandle
-                              let client_name = parseFilter cn
-
                               m <- hGetLine clientHandle
+                              let client_name = parseFilter cn
                               let message = parse m
 
+                              -- Perform message
                               let ref_int = read room_ref :: Int
                               chanName <- getRoomFromRef ref_int
-                              print ("MESSAGE: " ++ client_name ++ "-> " ++ room_ref)
                               sendMessage room_ref chanName client_name message 0
-                              --hPutStrLn clientHandle ("Room Ref: " ++ room_ref ++ " Join ID: " ++ join_id ++ " Client Name: " ++ client_name ++ " Message: " ++ message)
+
+                              -- Send response
+                              hPutStrLn clientHandle ("CHAT:" ++ room_ref)
+                              hPutStrLn clientHandle ("CLIENT_NAME:" ++ client_name)
+                              hPutStrLn clientHandle ("MESSAGE:" ++ message)
+                              print ("MESSAGE: " ++ client_name ++ "-> " ++ room_ref)
+                              -- END
             ["KILL_SERVICE", _] ->  hPutStrLn clientHandle "Terminating Server"
             ["",""]      -> do
                 hPutStrLn clientHandle "ERROR_CODE:0"

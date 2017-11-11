@@ -49,7 +49,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
           case [command, first] of
             ["HELO", text] -> do
                 let t = filter (/= '\r') text
-                hPutStrLn clientHandle "HELO"
+                hPutStrLn clientHandle "HELO text\nIP:[ip address]\nPort:[port number]\nStudentID:[your student ID]\n"
 --                hPutStrLn clientHandle ("ZELO " ++ t)
 --                hPutStrLn clientHandle "IP:10.62.0.58"
 --                hPutStrLn clientHandle "Port:9999"
@@ -80,7 +80,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               print ("JOINING CHANNEL: " ++ client_name ++ "joined room: " ++ chatroom_name)
                               -- TODO: Do this in one line with strict eval
                               let message = client_name ++ " has joined the room"
-                              sendMessage ref chatroom_name client_name message 1
+                              sendMessage ref chatroom_name client_name message 0
                               --hPutStrLn clientHandle ("Chatroom: " ++ chatroom_name ++ " Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
             ["LEAVE_CHATROOM:", room_ref] -> do
                               join_id <- hGetLine clientHandle
@@ -152,6 +152,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
            case message of
              Text room_ref name message 0 -> do
                 hPutStrLn clientHandle ("CHAT:" ++ room_ref)
+                print room_ref
                 hPutStrLn clientHandle ("CLIENT_NAME:" ++ name)
                 hPutStrLn clientHandle ("MESSAGE:" ++ message)
              Text room_ref name message 1 -> hPutStrLn clientHandle message

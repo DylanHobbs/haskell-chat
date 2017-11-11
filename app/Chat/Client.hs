@@ -50,7 +50,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
             ["HELO", text] -> do
                 --hPutStrLn clientHandle ("HELO " ++ text ++ "IP:10.62.0.58" ++ "Port:9999" ++ "StudentID:12301730")
                 let t = filter (/= '\r') text
-                hPutStrLn clientHandle ("HELO " ++ t)
+                hPutStrLn clientHandle ("ZELO " ++ t)
                 hPutStrLn clientHandle "IP:10.62.0.58"
                 hPutStrLn clientHandle "Port:9999"
                 hPutStrLn clientHandle "StudentID:12301730"

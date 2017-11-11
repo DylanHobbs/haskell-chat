@@ -82,7 +82,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               let message = client_name ++ " has joined the room"
                               sendMessage ref chatroom_name client_name message 0
                               --hPutStrLn clientHandle ("Chatroom: " ++ chatroom_name ++ " Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
-            ["LEAVE_CHATROOM:", rr] -> do
+            ["LEAVE_CHATROOM: ", rr] -> do
                               -- Parse rest of input
                               print "in join"
                               join_id <- hGetLine clientHandle

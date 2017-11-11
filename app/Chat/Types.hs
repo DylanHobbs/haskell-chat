@@ -10,6 +10,7 @@ import qualified Data.List as List
 type UserName = String
 type ChannelName = String
 type RoomRef = Int
+type SimpleFlag = Int
 
 data User = User { userID :: Int }
             deriving (Show, Ord, Eq)
@@ -55,7 +56,7 @@ newChannel channelName ref users  = do
 
 
 data Message = JoinRequest String
-             | Text String String String
+             | Text String String String SimpleFlag
              | JoinResponse
              | LeaveRequest String
              | LeaveResponse

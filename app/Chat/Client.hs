@@ -14,6 +14,8 @@ import Data.List.Split
 import Control.Monad (when,forever,forM_,unless)
 import Text.Printf (printf,hPrintf)
 import Debug.Trace
+import Data.String
+import Data.Char (isSpace)
 
 import qualified Data.Map as Map
 import qualified Data.Set as Set
@@ -46,26 +48,41 @@ gogoClient Server{..} client@Client{..} client_ID = do
 
           case [command, first] of
             ["HELO", text] ->
-                hPutStrLn clientHandle ("PELO " ++ text ++ "\nIP:0" ++ "\nPort:0" ++ "\nStudentID:12301730")
+                hPutStrLn clientHandle ("HELO " ++ text ++ "\nIP:0" ++ "\nPort:0" ++ "\nStudentID:12301730")
 --                hPutStrLn clientHandle "IP: 0"
 --                hPutStrLn clientHandle "Port: 0"
 --                hPutStrLn clientHandle "StudentID: 12301730"
             ["JOIN_CHATROOM:", chatroom_name]-> do
-                              client_ip <- hGetLine clientHandle
-                              port <- hGetLine clientHandle
-                              client_name <- hGetLine clientHandle
+                              -- parse rest of request line by line
+                              ip <- hGetLine clientHandle
+                              p <- hGetLine clientHandle
+                              cn <- hGetLine clientHandle
+                              let client_ip = parseFilter ip
+                              let port = parseFilter p
+                              let client_name = parseFilter cn
+                              -- Initate join
                               joinChatroom chatroom_name clientName
+
+                              -- Return ref
                               ref <- getRefFromRoom chatroom_name
+
+                              -- Send response
                               hPutStrLn clientHandle ("JOINED_CHATROOM:" ++ chatroom_name)
                               hPutStrLn clientHandle "SERVER_IP:10.62.0.58"
                               hPutStrLn clientHandle "PORT:9999"
                               hPutStrLn clientHandle ("ROOM_REF:" ++ show ref)
                               hPutStrLn clientHandle "JOIN_ID:0"
+
+                              -- Alert channel and message to server
                               print ("JOINING CHANNEL: " ++ client_name ++ "joined room: " ++ chatroom_name)
+                              -- TODO: Do this in one line with strict eval
+                              let message = client_name ++ " has joined the room"
+                              sendMessage ref chatroom_name client_name message 1
                               --hPutStrLn clientHandle ("Chatroom: " ++ chatroom_name ++ " Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
             ["LEAVE_CHATROOM:", room_ref] -> do
                               join_id <- hGetLine clientHandle
-                              client_name <- hGetLine clientHandle
+                              cn <- hGetLine clientHandle
+                              let client_name = parseFilter cn
                               leaveChatroom room_ref client_name
                               hPutStr clientHandle ("LEFT_CHATROOM:" ++ room_ref)
                               hPutStr clientHandle ("JOIN_ID:" ++ room_ref)
@@ -79,12 +96,17 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               --hPutStrLn clientHandle ("Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
             ["CHAT:", room_ref] -> do
                               join_id <- hGetLine clientHandle
-                              client_name <- hGetLine clientHandle
-                              message <- hGetLine clientHandle
+
+                              cn <- hGetLine clientHandle
+                              let client_name = parseFilter cn
+
+                              m <- hGetLine clientHandle
+                              let message = parse m
+
                               let ref_int = read room_ref :: Int
                               chanName <- getRoomFromRef ref_int
                               print ("MESSAGE: " ++ client_name ++ "-> " ++ room_ref)
-                              sendMessage room_ref chanName client_name message
+                              sendMessage room_ref chanName client_name message 0
                               --hPutStrLn clientHandle ("Room Ref: " ++ room_ref ++ " Join ID: " ++ join_id ++ " Client Name: " ++ client_name ++ " Message: " ++ message)
             ["KILL_SERVICE", _] ->  hPutStrLn clientHandle "Terminating Server"
             ["",""]      -> do
@@ -112,10 +134,10 @@ gogoClient Server{..} client@Client{..} client_ID = do
                 return channel
           modifyTVar' connectedChannels $ Map.delete room
 
-      sendMessage room_ref room name message = atomically $ do
+      sendMessage room_ref room name message simpleFlag = atomically $ do
           channelMap <- readTVar serverChannels
           case Map.lookup room channelMap of
-              Just chan -> writeTChan (channelChan chan) (Text (show room_ref) name message)
+              Just chan -> writeTChan (channelChan chan) (Text (show room_ref) name message simpleFlag)
               Nothing -> return ()
 
 
@@ -123,10 +145,11 @@ gogoClient Server{..} client@Client{..} client_ID = do
       deliverMessage Client {..} message = do
            print "Message delivaer"
            case message of
-             Text room_ref name message -> do
+             Text room_ref name message 0 -> do
                 hPutStrLn clientHandle ("CHAT:" ++ room_ref)
                 hPutStrLn clientHandle name
                 hPutStrLn clientHandle message
+             Text room_ref name message 1 -> hPutStrLn clientHandle message
              _ -> hPutStrLn clientHandle "Could not read message"
 
       joinChatroom room name = atomically $ do
@@ -164,10 +187,18 @@ gogoClient Server{..} client@Client{..} client_ID = do
 --           print room
 --           --modifyTVar' connectedChannels $ Map.remove room clientChannelMap
 
-      deepParse :: String -> String
-      deepParse a = splitOn ":" a !! 1
+      parseFilter :: String -> String
+      parseFilter a = filter (/= ' ') $ filter (/= '\r') $ splitOn ":" a !! 1
 
-      parseRequest :: Int -> String -> [String]
-      parseRequest n body = map deepParse (take n (splitOn "\\n" ("first: " ++ body)))
+      parseFilter' :: String -> String
+      parseFilter' a = filter (/= '\r') $ splitOn ":" a !! 1
+
+      parse :: String -> String
+      parse a = splitOn ":" a !! 1
+
+      --rstrip = reverse . dropWhile isSpace . reverse
+
+--      parseRequest :: Int -> String -> [String]
+--      parseRequest n body = map deepParse (take n (splitOn "\\n" ("first: " ++ body)))
 
 

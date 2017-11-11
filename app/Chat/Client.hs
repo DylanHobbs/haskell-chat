@@ -52,11 +52,12 @@ gogoClient Server{..} client@Client{..} client_ID = do
 --                hPutStrLn clientHandle "IP: 0"
 --                hPutStrLn clientHandle "Port: 0"
 --                hPutStrLn clientHandle "StudentID: 12301730"
-            ["JOIN_CHATROOM:", chatroom_name]-> do
+            ["JOIN_CHATROOM:", crn]-> do
                               -- parse rest of request line by line
                               ip <- hGetLine clientHandle
                               p <- hGetLine clientHandle
                               cn <- hGetLine clientHandle
+                              let chatroom_name = filter (/= '\r') crn
                               let client_ip = parseFilter ip
                               let port = parseFilter p
                               let client_name = parseFilter cn
@@ -94,23 +95,20 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               print ("DISCONNECT: " ++ client_name)
                               --disconnect client_ip client_name
                               --hPutStrLn clientHandle ("Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
-            ["CHAT:", room_ref] -> do
+            ["CHAT:", rr] -> do
                               -- parse request line by line
-                              join_id <- hGetLine clientHandle
+                              ji <- hGetLine clientHandle
                               cn <- hGetLine clientHandle
                               m <- hGetLine clientHandle
+                              let room_ref = filter (/= '\r') rr
+                              let join_id = parseFilter ji
                               let client_name = parseFilter cn
                               let message = parse m
 
                               -- Perform message
                               let ref_int = read room_ref :: Int
                               chanName <- getRoomFromRef ref_int
-                              sendMessage room_ref chanName client_name message 0
-
-                              -- Send response
-                              hPutStrLn clientHandle ("CHAT:" ++ room_ref)
-                              hPutStrLn clientHandle ("CLIENT_NAME:" ++ client_name)
-                              hPutStrLn clientHandle ("MESSAGE:" ++ message)
+                              sendMessage ref_int chanName client_name message 0
                               print ("MESSAGE: " ++ client_name ++ "-> " ++ room_ref)
                               -- END
             ["KILL_SERVICE", _] ->  hPutStrLn clientHandle "Terminating Server"
@@ -152,8 +150,8 @@ gogoClient Server{..} client@Client{..} client_ID = do
            case message of
              Text room_ref name message 0 -> do
                 hPutStrLn clientHandle ("CHAT:" ++ room_ref)
-                hPutStrLn clientHandle name
-                hPutStrLn clientHandle message
+                hPutStrLn clientHandle ("CLIENT_NAME:" ++ name)
+                hPutStrLn clientHandle ("MESSAGE:" ++ message)
              Text room_ref name message 1 -> hPutStrLn clientHandle message
              _ -> hPutStrLn clientHandle "Could not read message"
 

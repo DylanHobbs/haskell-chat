@@ -37,7 +37,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
       readCommands = forever $ do
           print ("Client: " ++ show client_ID ++ " is waiting for commands")
           line <- hGetLine clientHandle
-          let x = splitOn " " line
+          let x = splitOn ":" line
           [command, first] <-
             if length x > 2 || null (tail x)
               then return ["", ""]
@@ -54,7 +54,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
 --                hPutStrLn clientHandle "IP:10.62.0.58"
 --                hPutStrLn clientHandle "Port:9999"
 --                hPutStrLn clientHandle "StudentID:12301730"
-            ["JOIN_CHATROOM:", crn]-> do
+            ["JOIN_CHATROOM", crn]-> do
                               -- parse rest of request line by line
                               ip <- hGetLine clientHandle
                               p <- hGetLine clientHandle
@@ -82,7 +82,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               let message = client_name ++ " has joined the room"
                               sendMessage ref chatroom_name client_name message 0
                               --hPutStrLn clientHandle ("Chatroom: " ++ chatroom_name ++ " Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
-            ["LEAVE_CHATROOM: ", rr] -> do
+            ["LEAVE_CHATROOM", rr] -> do
                               -- Parse rest of input
                               print "in join"
                               join_id <- hGetLine clientHandle
@@ -111,13 +111,13 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               print "finish alert"
                               print ("LEAVING CHANNEL: " ++ client_name ++ " left room: " ++ room_ref)
                               --hPutStrLn clientHandle ("Room: " ++ room_ref ++ " Join_id: " ++ join_id ++ " Client Name: " ++ client_name)
-            ["DISCONNECT:", client_ip] -> do
+            ["DISCONNECT", client_ip] -> do
                               port <- hGetLine clientHandle
                               client_name <- hGetLine clientHandle
                               print ("DISCONNECT: " ++ client_name)
                               --disconnect client_ip client_name
                               --hPutStrLn clientHandle ("Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
-            ["CHAT:", rr] -> do
+            ["CHAT", rr] -> do
                               -- parse request line by line
                               ji <- hGetLine clientHandle
                               cn <- hGetLine clientHandle

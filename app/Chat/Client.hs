@@ -65,7 +65,8 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               let port = parseFilter p
                               let client_name = parseFilter cn
 
-
+                              -- Initate join
+                              joinChatroom chatroom_name clientName
 
                               -- Return ref
                               ref <- getRefFromRoom chatroom_name
@@ -76,9 +77,6 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               hPutStrLn clientHandle "PORT:9999"
                               hPutStrLn clientHandle ("ROOM_REF:" ++ show ref)
                               hPutStrLn clientHandle "JOIN_ID:0"
-
-                              -- Initate join
-                              joinChatroom chatroom_name clientName
 
                               -- Alert channel and message to server
                               print ("JOINING CHANNEL: " ++ client_name ++ "joined room: " ++ chatroom_name)
@@ -150,7 +148,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
           foldr (orElse . readTChan) retry
            $ Map.elems chans
         case r of
-          Left (e :: SomeException) -> print "derp"
+          Left (e :: SomeException) -> print e
           Right message -> deliverMessage client message
 
       leaveChatroom room client = atomically $ do
@@ -211,6 +209,8 @@ gogoClient Server{..} client@Client{..} client_ID = do
           channelMap <- readTVar serverChannels
           case Map.lookup room channelMap of
               Just (channel@Channel{..}) -> return channelRef
+              Nothing -> return 50
+              -- TODO: remove this
 
 --      leaveChatroom room name = do
 --           clientChannelMap <- readTVar connectedChannels

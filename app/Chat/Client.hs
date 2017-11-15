@@ -30,115 +30,100 @@ gogoClient Server{..} client@Client{..} client_ID = do
     print ("Client: " ++ show client_ID ++ " has the field")
     commandReader <- forkIO readCommands
     run clientId `finally` killThread commandReader
---      chans <- readTVarIO connectedChannels
---      forM_ (Map.keys chans) $ \name ->
---          handleMessage (Disconnect body)
     where
       readCommands = forever $ do
           print ("Client: " ++ show client_ID ++ " is waiting for commands")
           line <- hGetLine clientHandle
-          print $ "INPUT RECIEVED: " ++ line
-          let x = splitOn ":" line
-          [command, first] <-
-            if length x > 2 || null (tail x)
-              then return ["", ""]
-              else return x
 
-          print $ "Command: " ++ command
-          print $ "First: " ++ first
+          case parseCommand line of
+            Nothing -> do
+              hPutStrLn clientHandle "ERROR_CODE:0"
+              hPutStrLn clientHandle "ERROR_DESCRIPTION:Command not recognised"
+            Just c -> handleMessage c
 
-          case [command, first] of
-            ["HELO", text] -> do
-                let t = filter (/= '\r') text
-                hPutStrLn clientHandle "HELO text\nIP:[ip address]\nPort:[port number]\nStudentID:[your student ID]\n"
---                hPutStrLn clientHandle ("ZELO " ++ t)
---                hPutStrLn clientHandle "IP:10.62.0.58"
---                hPutStrLn clientHandle "Port:9999"
---                hPutStrLn clientHandle "StudentID:12301730"
-            ["JOIN_CHATROOM", crn]-> do
-                              -- parse rest of request line by line
-                              ip <- hGetLine clientHandle
-                              p <- hGetLine clientHandle
-                              cn <- hGetLine clientHandle
-                              let chatroom_name = filter (/= '\r') crn
-                              let client_ip = parseFilter ip
-                              let port = parseFilter p
-                              let client_name = parseFilter cn
+      handleMessage (HelloText rest) = do
+          let t = filter (/= '\r') rest
+          hPutStrLn clientHandle $ "HELO " ++ t ++ "\nIP:10.62.0.58\nPort:9999\nStudentID:12301730\n"
 
-                              -- Initate join
-                              joinChatroom chatroom_name clientName
+      handleMessage (JoinRequest crn) = do
+          print clientHandle
+          -- parse rest of request line by line
+          ip <- hGetLine clientHandle
+          p <- hGetLine clientHandle
+          cn <- hGetLine clientHandle
+          let chatroom_name = filter (/= '\r') crn
+          let client_ip = parseFilter ip
+          let port = parseFilter p
+          let client_name = parseFilter cn
+          -- Initate join
+          joinChatroom chatroom_name clientName
 
-                              -- Return ref
-                              ref <- getRefFromRoom chatroom_name
+          -- Return ref
+          ref <- getRefFromRoom chatroom_name
 
-                              -- Send response
-                              hPutStrLn clientHandle ("JOINED_CHATROOM:" ++ chatroom_name)
-                              hPutStrLn clientHandle "SERVER_IP:10.62.0.58"
-                              hPutStrLn clientHandle "PORT:9999"
-                              hPutStrLn clientHandle ("ROOM_REF:" ++ show ref)
-                              hPutStrLn clientHandle "JOIN_ID:0"
+          -- Send response
+          hPutStrLn clientHandle ("JOINED_CHATROOM:" ++ chatroom_name)
+          hPutStrLn clientHandle "SERVER_IP:10.62.0.58"
+          hPutStrLn clientHandle "PORT:9999"
+          hPutStrLn clientHandle ("ROOM_REF:" ++ show ref)
+          hPutStrLn clientHandle "JOIN_ID:0"
 
-                              -- Alert channel and message to server
-                              print ("JOINING CHANNEL: " ++ client_name ++ "joined room: " ++ chatroom_name)
-                              -- TODO: Do this in one line with strict eval
-                              let message = client_name ++ " has joined the room"
-                              sendMessage ref chatroom_name client_name message 0
-                              --hPutStrLn clientHandle ("Chatroom: " ++ chatroom_name ++ " Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
-            ["LEAVE_CHATROOM", rr] -> do
-                              -- Parse rest of input
-                              print "in leave"
-                              join_id <- hGetLine clientHandle
-                              cn <- hGetLine clientHandle
-                              let room_ref = filter (/= '\r') rr
-                              let room_ref_int = read room_ref :: Int
-                              let client_name = parseFilter cn
+          -- Alert channel and message to server
+          print ("JOINING CHANNEL: " ++ client_name ++ "joined room: " ++ chatroom_name)
+          -- TODO: Do this in one line with strict eval
+          let message = client_name ++ " has joined the room"
+          sendMessage ref chatroom_name client_name message 0
 
-                              print "in leave 2"
-                              -- Get room name
-                              room <- getRoomFromRef (read room_ref :: Int)
-                              -- Perform leave
-                              leaveChatroom room client_name
+      handleMessage (LeaveRequest rr) = do
+          -- Parse rest of input
+          print "in leave"
+          join_id <- hGetLine clientHandle
+          cn <- hGetLine clientHandle
+          let room_ref = filter (/= '\r') rr
+          let room_ref_int = read room_ref :: Int
+          let client_name = parseFilter cn
 
-                              print "after leave - response"
+          print "in leave 2"
+          -- Get room name
+          room <- getRoomFromRef (read room_ref :: Int)
+          -- Perform leave
+          leaveChatroom room client_name
+          print "after leave - response"
 
-                              -- Response
-                              hPutStrLn clientHandle ("LEFT_CHATROOM:" ++ show room_ref_int)
-                              hPutStrLn clientHandle ("JOIN_ID:" ++ join_id)
+          -- Response
+          hPutStrLn clientHandle ("LEFT_CHATROOM:" ++ show room_ref_int)
+          hPutStrLn clientHandle ("JOIN_ID:" ++ join_id)
 
-                              print "finish response"
+          print "finish response"
 
-                              -- Alert channel and message server
-                              let message = client_name ++ " has left the room"
-                              sendMessage room_ref room client_name message 0
-                              print "finish alert"
-                              print ("LEAVING CHANNEL: " ++ client_name ++ " left room: " ++ room_ref)
-                              --hPutStrLn clientHandle ("Room: " ++ room_ref ++ " Join_id: " ++ join_id ++ " Client Name: " ++ client_name)
-            ["DISCONNECT", client_ip] -> do
-                              port <- hGetLine clientHandle
-                              client_name <- hGetLine clientHandle
-                              print ("DISCONNECT: " ++ client_name)
-                              --disconnect client_ip client_name
-                              --hPutStrLn clientHandle ("Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
-            ["CHAT", rr] -> do
-                              -- parse request line by line
-                              ji <- hGetLine clientHandle
-                              cn <- hGetLine clientHandle
-                              m <- hGetLine clientHandle
-                              let room_ref = filter (/= '\r') rr
-                              let join_id = parseFilter ji
-                              let client_name = parseFilter cn
-                              let message = parse m
+          -- Alert channel and message server
+          let message = client_name ++ " has left the room"
+          sendMessage room_ref room client_name message 0
+          print "finish alert"
+          print ("LEAVING CHANNEL: " ++ client_name ++ " left room: " ++ room_ref)
 
-                              -- Perform message
-                              let ref_int = read room_ref :: Int
-                              chanName <- getRoomFromRef ref_int
-                              sendMessage ref_int chanName client_name message 0
-                              print ("MESSAGE: " ++ client_name ++ "-> " ++ room_ref)
-                              -- END
-            ["KILL_SERVICE", _] ->  hPutStrLn clientHandle "Terminating Server"
-            ["",""]      -> do
-                hPutStrLn clientHandle "ERROR_CODE:0"
-                hPutStrLn clientHandle "ERROR_DESCRIPTION:Command not recognised"
+--            ["DISCONNECT", client_ip] -> do
+--                              port <- hGetLine clientHandle
+--                              client_name <- hGetLine clientHandle
+--                              print ("DISCONNECT: " ++ client_name)
+--                              --disconnect client_ip client_name
+--                              --hPutStrLn clientHandle ("Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
+
+      handleMessage (MessageSend rr) = do
+          -- parse request line by line
+          ji <- hGetLine clientHandle
+          cn <- hGetLine clientHandle
+          m <- hGetLine clientHandle
+          let room_ref = filter (/= '\r') rr
+          let join_id = parseFilter ji
+          let client_name = parseFilter cn
+          let message = parse m
+
+          -- Perform message
+          let ref_int = read room_ref :: Int
+          chanName <- getRoomFromRef ref_int
+          sendMessage ref_int chanName client_name message 0
+          print ("MESSAGE: " ++ client_name ++ "-> " ++ room_ref)
 
       run :: Int -> IO ()
       run id = forever $ do

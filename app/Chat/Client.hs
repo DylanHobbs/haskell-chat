@@ -38,20 +38,19 @@ gogoClient Server{..} client@Client{..} client_ID = do
 
           case parseCommand line of
             Just c -> do
-              --a <- forkIO $ handleMessage c
-              handleMessage c
+              a <- forkIO $ handleMessage c client
               print "Doing a thing"
             Nothing -> do
               hPutStrLn clientHandle "ERROR_CODE:0"
               hPutStrLn clientHandle "ERROR_DESCRIPTION: Command not recognised"
 
-      handleMessage (HelloText rest) = do
+      handleMessage (HelloText rest) Client{..} = do
           let t = filter (/= '\r') rest
           let message = "HELO " ++ t ++ "\nIP:10.62.0.58\nPort:9999\nStudentID:12301730\n"
           print message
           hPutStrLn clientHandle message
 
-      handleMessage (JoinRequest crn) = do
+      handleMessage (JoinRequest crn) Client{..} = do
           print clientHandle
           -- parse rest of request line by line
           ip <- hGetLine clientHandle
@@ -79,7 +78,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
           let message = client_name ++ " has joined the room"
           sendMessage ref chatroom_name client_name message 0
 
-      handleMessage (LeaveRequest rr) = do
+      handleMessage (LeaveRequest rr) Client{..} = do
           -- Parse rest of input
           print "in leave"
           ji <- hGetLine clientHandle
@@ -115,7 +114,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
 --                              --disconnect client_ip client_name
 --                              --hPutStrLn clientHandle ("Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
 
-      handleMessage (MessageSend rr) = do
+      handleMessage (MessageSend rr) Client{..} = do
           -- parse request line by line
           ji <- hGetLine clientHandle
           cn <- hGetLine clientHandle

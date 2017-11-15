@@ -41,7 +41,7 @@ mainLoop :: Server -> Socket -> Int  -> IO ()
 mainLoop server sock clientID = do
     (acceptedSocket, sockAd) <- accept sock
     handle <- socketToHandle acceptedSocket ReadWriteMode
-    hSetBuffering handle NoBuffering
+    --hSetBuffering handle NoBuffering
     print ("Client: " ++ show clientID ++ " connected to the server")
     forkIO $ addUser server handle clientID `finally` hClose handle
     mainLoop server sock (clientID + 1)

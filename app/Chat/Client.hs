@@ -37,6 +37,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
       readCommands = forever $ do
           print ("Client: " ++ show client_ID ++ " is waiting for commands")
           line <- hGetLine clientHandle
+          print $ "INPUT RECIEVED: " ++ line
           let x = splitOn ":" line
           [command, first] <-
             if length x > 2 || null (tail x)
@@ -63,8 +64,8 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               let client_ip = parseFilter ip
                               let port = parseFilter p
                               let client_name = parseFilter cn
-                              -- Initate join
-                              joinChatroom chatroom_name clientName
+
+
 
                               -- Return ref
                               ref <- getRefFromRoom chatroom_name
@@ -76,6 +77,9 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               hPutStrLn clientHandle ("ROOM_REF:" ++ show ref)
                               hPutStrLn clientHandle "JOIN_ID:0"
 
+                              -- Initate join
+                              joinChatroom chatroom_name clientName
+
                               -- Alert channel and message to server
                               print ("JOINING CHANNEL: " ++ client_name ++ "joined room: " ++ chatroom_name)
                               -- TODO: Do this in one line with strict eval
@@ -84,14 +88,14 @@ gogoClient Server{..} client@Client{..} client_ID = do
                               --hPutStrLn clientHandle ("Chatroom: " ++ chatroom_name ++ " Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
             ["LEAVE_CHATROOM", rr] -> do
                               -- Parse rest of input
-                              print "in join"
+                              print "in leave"
                               join_id <- hGetLine clientHandle
                               cn <- hGetLine clientHandle
                               let room_ref = filter (/= '\r') rr
                               let room_ref_int = read room_ref :: Int
                               let client_name = parseFilter cn
 
-                              print "in leave"
+                              print "in leave 2"
                               -- Get room name
                               room <- getRoomFromRef (read room_ref :: Int)
                               -- Perform leave

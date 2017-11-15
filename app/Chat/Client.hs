@@ -11,6 +11,7 @@ import Control.Concurrent
 import Control.Monad.Fix (fix)
 import Control.Exception
 import Data.List.Split
+import qualified Data.ByteString.Char8 (hPutStrLn)
 import Control.Monad (when,forever,forM_,unless)
 import Text.Printf (printf,hPrintf)
 import Debug.Trace
@@ -28,22 +29,27 @@ gogoClient :: Server -> Client -> Int -> IO ()
 gogoClient Server{..} client@Client{..} client_ID = do
     -- launch command reader
     print ("Client: " ++ show client_ID ++ " has the field")
-    commandReader <- forkIO readCommands
+    commandReader <- forkIO $ readCommands client
     run clientId `finally` killThread commandReader
     where
-      readCommands = forever $ do
+      readCommands client@Client{..} = forever $ do
           print ("Client: " ++ show client_ID ++ " is waiting for commands")
           line <- hGetLine clientHandle
 
           case parseCommand line of
+            Just c -> do
+              --a <- forkIO $ handleMessage c
+              handleMessage c
+              print "Doing a thing"
             Nothing -> do
               hPutStrLn clientHandle "ERROR_CODE:0"
-              hPutStrLn clientHandle "ERROR_DESCRIPTION:Command not recognised"
-            Just c -> handleMessage c
+              hPutStrLn clientHandle "ERROR_DESCRIPTION: Command not recognised"
 
       handleMessage (HelloText rest) = do
           let t = filter (/= '\r') rest
-          hPutStrLn clientHandle $ "HELO " ++ t ++ "\nIP:10.62.0.58\nPort:9999\nStudentID:12301730\n"
+          let message = "HELO " ++ t ++ "\nIP:10.62.0.58\nPort:9999\nStudentID:12301730\n"
+          print message
+          hPutStrLn clientHandle message
 
       handleMessage (JoinRequest crn) = do
           print clientHandle
@@ -69,16 +75,16 @@ gogoClient Server{..} client@Client{..} client_ID = do
           hPutStrLn clientHandle "JOIN_ID:0"
 
           -- Alert channel and message to server
-          print ("JOINING CHANNEL: " ++ client_name ++ "joined room: " ++ chatroom_name)
-          -- TODO: Do this in one line with strict eval
+          print ("JOINING CHANNEL: " ++ client_name ++ " joined room: " ++ chatroom_name)
           let message = client_name ++ " has joined the room"
           sendMessage ref chatroom_name client_name message 0
 
       handleMessage (LeaveRequest rr) = do
           -- Parse rest of input
           print "in leave"
-          join_id <- hGetLine clientHandle
+          ji <- hGetLine clientHandle
           cn <- hGetLine clientHandle
+          let join_id = parseFilter ji
           let room_ref = filter (/= '\r') rr
           let room_ref_int = read room_ref :: Int
           let client_name = parseFilter cn

@@ -70,8 +70,8 @@ gogoClient Server{..} client@Client{..} client_ID = do
 
           -- Send response
           hPutStrLn clientHandle ("JOINED_CHATROOM:" ++ chatroom_name)
-          hPutStrLn clientHandle "SERVER_IP:10.62.0.58"
-          hPutStrLn clientHandle "PORT:9999"
+          hPutStrLn clientHandle "SERVER_IP: 0"
+          hPutStrLn clientHandle "PORT: 0"
           hPutStrLn clientHandle ("ROOM_REF:" ++ show ref)
           hPutStrLn clientHandle "JOIN_ID:0"
 

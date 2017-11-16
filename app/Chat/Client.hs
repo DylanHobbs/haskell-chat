@@ -34,16 +34,16 @@ gogoClient Server{..} client@Client{..} client_ID = do
     where
       readCommands client@Client{..} = forever $ do
           print ("Client: " ++ show client_ID ++ " is waiting for commands")
+          threadDelay 2000000
           line <- hGetLine clientHandle
           print $ "LINE: " ++ line
 
           case parseCommand line of
             Just c -> do
               a <- handleMessage c client
-              threadDelay 1000000
               print "Doing a thing"
             Nothing -> do
-              print line
+              print $ "Nothing Patter: " ++ line
               hPutStrLn clientHandle "ERROR_CODE:0"
               hPutStrLn clientHandle "ERROR_DESCRIPTION: Command not recognised"
 

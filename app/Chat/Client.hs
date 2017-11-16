@@ -43,7 +43,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
               a <- handleMessage c client
               print "Doing a thing"
             Nothing -> do
-              print $ "Nothing Patter: " ++ line
+              print $ "Nothing Pattern: " ++ line
               hPutStrLn clientHandle "ERROR_CODE:0"
               hPutStrLn clientHandle "ERROR_DESCRIPTION: Command not recognised"
 

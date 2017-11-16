@@ -49,8 +49,12 @@ gogoClient Server{..} client@Client{..} client_ID = do
 
       handleMessage (HelloText rest) Client{..} = do
           let t = filter (/= '\r') rest
-          let message = "HELO " ++ t ++ "\nIP:10.62.0.58\nPort:9999\nStudentID:12301730\n"
-          hPutStrLn clientHandle message
+--          let message = "HELO " ++ t ++ "\nIP:10.62.0.58\nPort:9999\nStudentID:12301730\n"
+--          hPutStrLn clientHandle message
+          hPutStrLn clientHandle $ "HELO" ++ t
+          hPutStrLn clientHandle "IP:10.62.0.58"
+          hPutStrLn clientHandle "Port:9999"
+          hPutStrLn clientHandle "StudentID:12301730"
 
       handleMessage (JoinRequest crn) Client{..} = do
           print clientHandle

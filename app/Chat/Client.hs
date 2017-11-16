@@ -39,7 +39,8 @@ gogoClient Server{..} client@Client{..} client_ID = do
 
           case parseCommand line of
             Just c -> do
-              a <- forkIO $ handleMessage c client
+              a <- handleMessage c client
+              threadDelay 1000000
               print "Doing a thing"
             Nothing -> do
               print line

@@ -35,7 +35,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
       readCommands client@Client{..} = forever $ do
           print ("Client: " ++ show client_ID ++ " is waiting for commands")
           threadDelay 2000000
-          line <- hGetLine clientHandle
+          line <- hGetContents clientHandle
           print $ "LINE: " ++ line
 
           case parseCommand line of
@@ -51,10 +51,6 @@ gogoClient Server{..} client@Client{..} client_ID = do
           let t = filter (/= '\r') rest
           let message = "HELO " ++ t ++ "\\nIP:10.62.0.58\\nPort:9999\\nStudentID:12301730\\n"
           hPutStrLn clientHandle message
---          hPutStrLn clientHandle $ "HELO" ++ t
---          hPutStrLn clientHandle "IP:10.62.0.58"
---          hPutStrLn clientHandle "Port:9999"
---          hPutStrLn clientHandle "StudentID:12301730"
 
       handleMessage (JoinRequest crn) Client{..} = do
           print clientHandle

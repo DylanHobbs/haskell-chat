@@ -12,9 +12,6 @@ type ChannelName = String
 type RoomRef = Int
 type SimpleFlag = Int
 
-data User = User { userID :: Int }
-            deriving (Show, Ord, Eq)
-
 data Server = Server {
                 serverUsers    :: MVar (Map.Map Int Client)
               , serverChannels :: TVar (Map.Map ChannelName Channel)
@@ -25,7 +22,7 @@ newServer :: IO Server
 newServer = do
   serverUsers    <- newMVar Map.empty
   serverChannels <- newTVarIO Map.empty
-  roomToName <- newTVarIO Map.empty
+  roomToName     <- newTVarIO Map.empty
   maxChannels    <- newTVarIO 0
   return $ Server serverUsers serverChannels roomToName maxChannels
 
@@ -33,7 +30,7 @@ data Client = Client {
                 clientId           :: Int
               , clientName         :: String
               , clientHandle       :: Handle
-              , connectedChannels :: TVar (Map.Map ChannelName (TChan Message))
+              , connectedChannels  :: TVar (Map.Map ChannelName (TChan Message))
               }
 newClient :: Int -> Handle -> IO Client
 newClient clientID handle = do

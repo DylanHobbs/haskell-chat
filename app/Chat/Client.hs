@@ -17,6 +17,7 @@ import Text.Printf (printf,hPrintf)
 import Debug.Trace
 import Data.String
 import Data.Char (isSpace)
+import System.Exit
 
 import qualified Data.Map as Map
 import qualified Data.Set as Set
@@ -29,13 +30,16 @@ gogoClient :: Server -> Client -> Int -> IO ()
 gogoClient Server{..} client@Client{..} client_ID = do
     -- launch command reader
     print ("Client: " ++ show client_ID ++ " has the field")
-    commandReader <- forkIO $ readCommands client
-    run clientId `finally` killThread commandReader
+    runner <- forkIO $ run clientId
+    readCommands client `finally` do
+      killThread runner
+      clientChannelMap <- readTVarIO connectedChannels
+      forM_ (Map.keys clientChannelMap) $ \channelName ->
+        leaveChatroom channelName clientName
     where
       readCommands client@Client{..} = forever $ do
           print ("Client: " ++ show client_ID ++ " is waiting for commands")
-          threadDelay 2000000
-          line <- hGetContents clientHandle
+          line <- hGetLine clientHandle
           print $ "LINE: " ++ line
 
           case parseCommand line of
@@ -62,6 +66,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
           let client_ip = parseFilter ip
           let port = parseFilter p
           let client_name = parseFilter cn
+
           -- Initate join
           joinChatroom chatroom_name clientName
 
@@ -82,7 +87,6 @@ gogoClient Server{..} client@Client{..} client_ID = do
 
       handleMessage (LeaveRequest rr) Client{..} = do
           -- Parse rest of input
-          print "in leave"
           ji <- hGetLine clientHandle
           cn <- hGetLine clientHandle
           let join_id = parseFilter ji
@@ -90,9 +94,9 @@ gogoClient Server{..} client@Client{..} client_ID = do
           let room_ref_int = read room_ref :: Int
           let client_name = parseFilter cn
 
-          print "in leave 2"
           -- Get room name
           room <- getRoomFromRef (read room_ref :: Int)
+
           -- Perform leave
           leaveChatroom room client_name
           print "after leave - response"
@@ -109,12 +113,15 @@ gogoClient Server{..} client@Client{..} client_ID = do
           print "finish alert"
           print ("LEAVING CHANNEL: " ++ client_name ++ " left room: " ++ room_ref)
 
---            ["DISCONNECT", client_ip] -> do
---                              port <- hGetLine clientHandle
---                              client_name <- hGetLine clientHandle
---                              print ("DISCONNECT: " ++ client_name)
---                              --disconnect client_ip client_name
---                              --hPutStrLn clientHandle ("Client IP: " ++ client_ip ++ " Port: " ++ port ++ " Client Name: " ++ client_name)
+      handleMessage(Disconnect ip) Client{..} = do
+          po <- hGetLine clientHandle
+          cn <- hGetLine clientHandle
+          let client_ip = filter (/= '\r') ip
+          let port = parseFilter po
+          let client_name = parseFilter cn
+
+          print ("DISCONNECT: " ++ client_name)
+          exitSuccess
 
       handleMessage (MessageSend rr) Client{..} = do
           -- parse request line by line
@@ -202,12 +209,6 @@ gogoClient Server{..} client@Client{..} client_ID = do
           case Map.lookup room channelMap of
               Just (channel@Channel{..}) -> return channelRef
               Nothing -> return 50
-              -- TODO: remove this
-
---      leaveChatroom room name = do
---           clientChannelMap <- readTVar connectedChannels
---           print room
---           --modifyTVar' connectedChannels $ Map.remove room clientChannelMap
 
       parseFilter :: String -> String
       parseFilter a = filter (/= ' ') $ filter (/= '\r') $ splitOn ":" a !! 1
@@ -218,9 +219,5 @@ gogoClient Server{..} client@Client{..} client_ID = do
       parse :: String -> String
       parse a = splitOn ":" a !! 1
 
-      --rstrip = reverse . dropWhile isSpace . reverse
-
---      parseRequest :: Int -> String -> [String]
---      parseRequest n body = map deepParse (take n (splitOn "\\n" ("first: " ++ body)))
 
 

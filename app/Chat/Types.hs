@@ -11,6 +11,7 @@ type UserName = String
 type ChannelName = String
 type RoomRef = Int
 type SimpleFlag = Int
+type JoinID = Int
 
 data Server = Server {
                 serverUsers    :: MVar (Map.Map Int Client)
@@ -31,12 +32,15 @@ data Client = Client {
               , clientName         :: String
               , clientHandle       :: Handle
               , connectedChannels  :: TVar (Map.Map ChannelName (TChan Message))
+              , joinIDs            :: Map.Map Int String
               }
 newClient :: Int -> Handle -> IO Client
 newClient clientID handle = do
               connectedChannels <- newTVarIO Map.empty
               let name = "[No Name Yet]"
-              return $ Client clientID name handle connectedChannels
+              let joinIDs = Map.empty
+              return $ Client clientID name handle connectedChannels joinIDs
+             
 
 data Channel = Channel {
               channelName  :: String

@@ -18,6 +18,7 @@ import Debug.Trace
 import Data.String
 import Data.Char (isSpace)
 import System.Exit
+import Data.Hashable
 
 import qualified Data.Map as Map
 import qualified Data.Set as Set
@@ -26,16 +27,26 @@ import Chat.Protocol
 import Chat.Types
 import Control.Concurrent.STM
 
+type ChannelName = String
+
+data KillCommand = KillCommand
+    deriving Show
+
+instance Exception KillCommand
+
+
 gogoClient :: Server -> Client -> Int -> IO ()
 gogoClient Server{..} client@Client{..} client_ID = do
     -- launch command reader
     print ("Client: " ++ show client_ID ++ " has the field")
     runner <- forkIO $ run clientId
     readCommands client `finally` do
+      print "Running finally"
       killThread runner
       clientChannelMap <- readTVarIO connectedChannels
       forM_ (Map.keys clientChannelMap) $ \channelName ->
         leaveChatroom channelName clientName
+      print "Finished Finally!"
     where
       readCommands client@Client{..} = forever $ do
           print ("Client: " ++ show client_ID ++ " is waiting for commands")
@@ -56,7 +67,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
           let message = "HELO " ++ t ++ "\\nIP:10.62.0.58\\nPort:9999\\nStudentID:12301730\\n"
           hPutStrLn clientHandle message
 
-      handleMessage (JoinRequest crn) Client{..} = do
+      handleMessage (JoinRequest crn) x@Client{..} = do
           print clientHandle
           -- parse rest of request line by line
           ip <- hGetLine clientHandle
@@ -67,8 +78,12 @@ gogoClient Server{..} client@Client{..} client_ID = do
           let port = parseFilter p
           let client_name = parseFilter cn
 
+          -- TODO: Maybe move ths below response
           -- Initate join
           joinChatroom chatroom_name clientName
+
+          -- Generate joinID
+          let joinID = hash client_name
 
           -- Return ref
           ref <- getRefFromRoom chatroom_name
@@ -78,7 +93,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
           hPutStrLn clientHandle "SERVER_IP: 10.62.0.58"
           hPutStrLn clientHandle "PORT: 9999"
           hPutStrLn clientHandle ("ROOM_REF:" ++ show ref)
-          hPutStrLn clientHandle "JOIN_ID:0"
+          hPutStrLn clientHandle ("JOIN_ID:" ++  show joinID)
 
           -- Alert channel and message to server
           print ("JOINING CHANNEL: " ++ client_name ++ " joined room: " ++ chatroom_name)
@@ -99,13 +114,10 @@ gogoClient Server{..} client@Client{..} client_ID = do
 
           -- Perform leave
           leaveChatroom room client_name
-          print "after leave - response"
 
           -- Response
           hPutStrLn clientHandle ("LEFT_CHATROOM:" ++ show room_ref_int)
           hPutStrLn clientHandle ("JOIN_ID:" ++ join_id)
-
-          print "finish response"
 
           -- Alert channel and message server
           let message = client_name ++ " has left the room"
@@ -121,7 +133,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
           let client_name = parseFilter cn
 
           print ("DISCONNECT: " ++ client_name)
-          exitSuccess
+          throw KillCommand
 
       handleMessage (MessageSend rr) Client{..} = do
           -- parse request line by line
@@ -147,7 +159,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
           foldr (orElse . readTChan) retry
            $ Map.elems chans
         case r of
-          Left (e :: SomeException) -> print e
+          Left (e :: SomeException) -> print $ "Exception: " ++ show e
           Right message -> deliverMessage client message
 
       leaveChatroom room client = atomically $ do

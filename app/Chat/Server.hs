@@ -44,15 +44,18 @@ mainLoop server sock clientID = do
     --hSetBuffering handle NoBuffering
     hSetBuffering handle LineBuffering
     print ("Client: " ++ show clientID ++ " connected to the server")
-    forkIO $ addUser server handle clientID `finally` hClose handle
+    forkIO $ addUser server handle clientID `finally` do
+                                                        print "Closing client handle"
+                                                        hClose handle
     mainLoop server sock (clientID + 1)
 
--- TODO: Add users to list
 addUser :: Server -> Handle -> Int -> IO()
 addUser server@Server{..} handle clientID = do
               client <- newClient clientID handle
               print ("Client: " ++ show clientID ++ " added to server list")
-              gogoClient server client clientID `finally` removeUser server clientID
+              gogoClient server client clientID `finally` do
+                                                            print "Made it back to server"
+                                                            removeUser server clientID
 
 removeUser :: Server -> Int -> IO ()
 removeUser Server{..} userID =

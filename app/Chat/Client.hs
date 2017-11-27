@@ -159,7 +159,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
           foldr (orElse . readTChan) retry
            $ Map.elems chans
         case r of
-          Left (e :: SomeException) -> print $ "Exception: " ++ show e
+          Left (e :: KillCommand) -> print $ "KillCommand: " ++ show e
           Right message -> deliverMessage client message
 
       leaveChatroom room client = atomically $ do
@@ -230,6 +230,7 @@ gogoClient Server{..} client@Client{..} client_ID = do
 
       parse :: String -> String
       parse a = splitOn ":" a !! 1
+
 
 
 

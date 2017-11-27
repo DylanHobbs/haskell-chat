@@ -41,7 +41,6 @@ mainLoop :: Server -> Socket -> Int  -> IO ()
 mainLoop server sock clientID = do
     (acceptedSocket, sockAd) <- accept sock
     handle <- socketToHandle acceptedSocket ReadWriteMode
-    --hSetBuffering handle NoBuffering
     hSetBuffering handle LineBuffering
     print ("Client: " ++ show clientID ++ " connected to the server")
     forkIO $ addUser server handle clientID `finally` do
@@ -58,7 +57,8 @@ addUser server@Server{..} handle clientID = do
                                                             removeUser server clientID
 
 removeUser :: Server -> Int -> IO ()
-removeUser Server{..} userID =
+removeUser Server{..} userID = do
+  print "Removing user"
   modifyMVar_ serverUsers $ return . Map.delete userID
 
 
